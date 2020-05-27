@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // miq('p').setAttribute('aria-label', 'List item');
 
   const el = $('p')
-    .forEach((el) => el.title='Hello')
+    .forEach((el) => el.title = 'Hello')
     .setAttribute('aria-label', 'List item')
     .filter((el) => el.textContent == 'twee')
     .textContent = 'bla';
@@ -33,7 +33,7 @@ function $(arg, doc?) {
 
 const proxyHandler = {
   get(target, prop) {
-    console.log('get', target, prop);
+    console.log('>> get', target, prop);
     console.log('typeof prop', typeof prop);
 
     if (prop == Symbol.iterator) {
@@ -56,12 +56,18 @@ const proxyHandler = {
     if (prop == 'length') {
       console.log('length', target.length);
       return target.length;
-    } else if (prop == 'name') {
+    }
+
+    if (prop == 'name') {
       return Reflect.get(target, 'name');
-    } else if (!isNaN(Number(prop))) {
+    }
+
+    if (!isNaN(Number(prop))) {
       console.log('prop is number');
       return Reflect.get(target, prop);
-    } else if (target.length > 0) {
+    }
+
+    if (target.length > 0) {
       const propValue = Reflect.get(target[0], prop);
       console.log('propValue', propValue);
 
@@ -70,10 +76,10 @@ const proxyHandler = {
       } else {
         return propValue;
       }
-    } else {
-      console.log('last else');
-      return Reflect.get(target, prop);
     }
+
+    console.log('last else');
+    return Reflect.get(target, prop);
   },
 
   set(target, prop, value) {
