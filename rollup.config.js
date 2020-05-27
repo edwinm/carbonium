@@ -9,5 +9,5 @@ export default {
     format: 'iife',
     name: 'bundle',
   },
-  plugins: [typescript(), terser(), livereload()],
+  plugins: [livereload(), typescript(), terser()],
 };
