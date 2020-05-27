@@ -6,7 +6,7 @@
  @license MIT
  */
 
-export default miq;
+export default $;
 
 /**
  * Miq, the micro DOM library
@@ -23,7 +23,7 @@ const miqx = function (arg, doc) {
       arg();
     }
   } else {
-    var ret = Object.create(miq.fn), match;
+    var ret = Object.create($.fn), match;
     ret.length = 0;
 
     // $([domObject]) or $(miqObject)
@@ -48,14 +48,14 @@ const miqx = function (arg, doc) {
 
       // $('div.widget')
     } else {
-      ret = miq(doc.querySelectorAll(arg));
+      ret = $(doc.querySelectorAll(arg));
     }
 
     return ret;
   }
 };
 
-miq.fn = Object.create(Array.prototype, {
+$.fn = Object.create(Array.prototype, {
   first: {
     get: function () {
       return this[0];
@@ -64,7 +64,7 @@ miq.fn = Object.create(Array.prototype, {
 
   eq: {
     value: function (i) {
-      return miq(this[i || 0]);
+      return $(this[i || 0]);
     },
   },
 
@@ -89,7 +89,7 @@ miq.fn = Object.create(Array.prototype, {
   addClass: {
     value: function (cls) {
       for (var i = 0; i < this.length; i++) {
-        if (!miq.fn.hasClass.call({ first: this[i] }, cls)) {
+        if (!$.fn.hasClass.call({ first: this[i] }, cls)) {
           this[i].className += ' ' + cls;
         }
       }
@@ -172,7 +172,7 @@ miq.fn = Object.create(Array.prototype, {
 
   append: {
     value: function (value) {
-      var t = this, v = miq(value), len = v.length;
+      var t = this, v = $(value), len = v.length;
 
       for (var i = 0; i < len; i++) {
         t.first.appendChild(v[i].first || v[i]);
@@ -183,20 +183,20 @@ miq.fn = Object.create(Array.prototype, {
 
   before: {
     value: function (value) {
-      this.first.parentElement.insertBefore(miq().append(value).first, this.first);
+      this.first.parentElement.insertBefore($().append(value).first, this.first);
       return this;
     },
   },
 
   parent: {
     value: function () {
-      return miq(this.first.parentNode);
+      return $(this.first.parentNode);
     },
   },
 
   clone: {
     value: function () {
-      return miq(this.first.cloneNode(true));
+      return $(this.first.cloneNode(true));
     },
   },
 
@@ -211,7 +211,7 @@ miq.fn = Object.create(Array.prototype, {
 
   find: {
     value: function (value) {
-      return miq(value, this.first);
+      return $(value, this.first);
     },
   },
 
@@ -219,8 +219,8 @@ miq.fn = Object.create(Array.prototype, {
     value: function (selector) {
       var el = this.first;
       do {
-        if (el[miq.matches](selector)) {
-          return miq(el);
+        if (el[$.matches](selector)) {
+          return $(el);
         }
       } while (el = el.parentElement);
       return null;
@@ -229,8 +229,8 @@ miq.fn = Object.create(Array.prototype, {
 
   is: {
     value: function (selector) {
-      return miq(this.filter(function (el) {
-        return el[miq.matches](selector);
+      return $(this.filter(function (el) {
+        return el[$.matches](selector);
       }));
     },
   },
@@ -261,9 +261,9 @@ miq.fn = Object.create(Array.prototype, {
   },
 });
 
-miq.miq = '1.15.0';
+$.miq = '1.15.0';
 
-miq.ajaxCallback = function (url, resolve, reject, options) {
+$.ajaxCallback = function (url, resolve, reject, options) {
   var xmlHttp = new XMLHttpRequest();
 
   xmlHttp.onreadystatechange = function () {
@@ -296,14 +296,14 @@ miq.ajaxCallback = function (url, resolve, reject, options) {
   xmlHttp.send(options.data || '');
 };
 
-miq.ajax = function (url, options) {
+$.ajax = function (url, options) {
   return new Promise(function (resolve, reject) {
-    miq.ajaxCallback(url, resolve, reject, options);
+    $.ajaxCallback(url, resolve, reject, options);
   });
 };
 
-miq.matches = ['matches', 'webkitMatchesSelector', 'mozMatchesSelector', 'msMatchesSelector'].filter(function (sel) {
+$.matches = ['matches', 'webkitMatchesSelector', 'mozMatchesSelector', 'msMatchesSelector'].filter(function (sel) {
   return sel in document.documentElement;
 })[0];
 
-self.$ = miq;
+self.$ = $;
