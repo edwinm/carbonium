@@ -18,6 +18,8 @@ document.addEventListener('DOMContentLoaded', () => {
   console.log('el', el);
 });
 
+// Check https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol/species
+
 
 const array = [];
 
