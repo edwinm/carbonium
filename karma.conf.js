@@ -11,6 +11,7 @@ module.exports = function(config) {
     logLevel: config.LOG_INFO,
     browsers: ['ChromeHeadless'],
     autoWatch: false,
+    singleRun: true,
     // singleRun: false, // Karma captures browsers, runs the tests and exits
     concurrency: Infinity
   })

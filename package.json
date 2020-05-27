@@ -8,7 +8,7 @@
         "build": "rollup --config --sourcemap",
         "dev": "rollup --config --sourcemap --watch",
         "watch": "npm-run-all --parallel start dev",
-        "test": "karma start --single-run --browsers ChromeHeadless karma.conf.js"
+        "test": "karma start"
     },
     "repository": {
         "type": "git",
