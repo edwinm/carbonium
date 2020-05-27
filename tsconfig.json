@@ -7,6 +7,7 @@
         "module": "ES2015",
         "target": "es6",
         "moduleResolution": "node",
-        "sourceMap": true
+        "sourceMap": true,
+        "esModuleInterop": true
     }
 }
