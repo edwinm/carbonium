@@ -63,13 +63,13 @@ const proxyHandler = {
     }
 
     if (!isNaN(Number(prop))) {
-      console.log('prop is number');
+      console.log(`prop ${prop} is number`);
       return Reflect.get(target, prop);
     }
 
     if (target.length > 0) {
       const propValue = Reflect.get(target[0], prop);
-      console.log('propValue', propValue);
+      console.log('**** propValue', propValue);
 
       if (typeof propValue == 'function') {
         return new Proxy(propValue, proxyHandler);
@@ -83,6 +83,7 @@ const proxyHandler = {
   },
 
   set(target, prop, value) {
+    console.log('>> set', target, prop, value);
     for (const el of target) {
       Reflect.set(el, prop, value);
     }
@@ -90,7 +91,7 @@ const proxyHandler = {
   },
 
   apply: function (target, thisArg, argumentsList) {
-    console.log('apply', target, thisArg, argumentsList);
+    console.log('>> apply', target, thisArg, argumentsList);
     console.log('Array method', typeof target.name == 'string' && Array.prototype.hasOwnProperty(target.name));
     if (typeof target.name == 'string' && Array.prototype.hasOwnProperty(target.name)) {
       // if (false) {
