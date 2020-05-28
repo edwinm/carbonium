@@ -36,4 +36,18 @@ describe('$', () => {
       .textContent = 'hello';
     assert.equal(document.body.textContent, 'item0helloitem2item3item4item5');
   });
+
+  it('combined', () => {
+    $('div')
+      .forEach((el) => el.title = 'A div')
+      .setAttribute('aria-label', 'List item')
+      .filter((el) => el.textContent == 'item1')
+      .textContent = 'hello';
+    const divs = document.getElementsByTagName('div');
+    assert.equal(divs[0].getAttribute('aria-label'), 'List item');
+    assert.equal(divs[5].getAttribute('aria-label'), 'List item');
+    assert.equal(divs[0].getAttribute('title'), 'A div');
+    assert.equal(divs[5].getAttribute('title'), 'A div');
+    assert.equal(document.body.textContent, 'item0helloitem2item3item4item5');
+  });
 });
