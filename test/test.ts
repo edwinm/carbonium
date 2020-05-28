@@ -22,13 +22,13 @@ describe('$', () => {
     assert.equal(document.body.textContent, 'hellohellohellohellohellohello');
   });
 
-  // it('setAttribute all elements', () => {
-  //   $('div').setAttribute('aria-label', 'List item');
-  //   const divs = document.getElementsByTagName('div');
-  //   assert.equal(divs[0].getAttribute('aria-label'), 'List item');
-  //   assert.equal(divs[1].getAttribute('aria-label'), 'List item');
-  //   assert.equal(divs[5].getAttribute('aria-label'), 'List item');
-  // });
+  it('setAttribute all elements', () => {
+    $('div').setAttribute('aria-label', 'List item');
+    const divs = document.getElementsByTagName('div');
+    assert.equal(divs[0].getAttribute('aria-label'), 'List item');
+    assert.equal(divs[1].getAttribute('aria-label'), 'List item');
+    assert.equal(divs[5].getAttribute('aria-label'), 'List item');
+  });
 
   it('filter', () => {
     $('div')
