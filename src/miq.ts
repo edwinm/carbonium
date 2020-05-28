@@ -1,15 +1,8 @@
 // Check https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol/species
-
-
 const array = [];
 
 export function $(arg, doc?) {
-  doc = doc || document;
-
-  const elements = doc.querySelectorAll(arg);
-
-  console.log('elements', elements);
-
+  const elements = (doc || document).querySelectorAll(arg);
   return new Proxy(elements, proxyHandler);
 }
 
@@ -26,19 +19,25 @@ const proxyHandler = {
       }
     }
 
-    // Return iterator when asked for iterator
-    if (prop == Symbol.toStringTag) {
-      return Reflect.get(target, prop);
-    }
-
-    // if (target instanceof NodeList) {
-
     // Are we dealing with an Array function?
     if (Array.prototype.hasOwnProperty(prop)) {
       const propValue = Reflect.get(array, prop);
-      console.log('Array function', propValue);
+      console.log('Array prop', propValue);
       if (typeof propValue == 'function') {
         return new Proxy(propValue, proxyHandler);
+      }
+    }
+
+    // Are we dealing with an DOM property or function?
+    // TODO document.body might be too restrictive
+    if (prop in HTMLElement.prototype) {
+      const propValue = Reflect.get(document.body, prop);
+      console.log('DOM prop', propValue);
+
+      if (typeof propValue == 'function') {
+        return new Proxy(propValue, proxyHandler);
+      } else {
+        return propValue;
       }
     }
 
@@ -48,31 +47,6 @@ const proxyHandler = {
       return target.length;
     }
 
-    // Are we dealing with name property?
-    if (prop == 'name') {
-      return Reflect.get(target, prop);
-    }
-
-    // Are we dealing with a number index?
-    if (!isNaN(Number(prop))) {
-      console.log(`prop ${prop} is number`);
-      return Reflect.get(target, prop);
-    }
-
-    // TODO document.body might be too restrictive
-    if (prop in HTMLElement.prototype) {
-      const propValue = Reflect.get(document.body, prop);
-      console.log('**** propValue', propValue);
-
-      if (typeof propValue == 'function') {
-        return new Proxy(propValue, proxyHandler);
-      } else {
-        return propValue;
-      }
-    }
-
-    // Return property of target
-    console.log('last else');
     return Reflect.get(target, prop);
   },
 
@@ -86,15 +60,15 @@ const proxyHandler = {
 
   apply: function (target, thisArg, argumentsList) {
     console.log('>> apply', target, thisArg, argumentsList);
-    console.log('Array method', typeof target.name == 'string' && Array.prototype.hasOwnProperty(target.name));
     if (typeof target.name == 'string' && Array.prototype.hasOwnProperty(target.name)) {
-      // if (false) {
-      console.log('array', target, thisArg, argumentsList);
+      console.log('Array method', target, thisArg, argumentsList);
       const ret = Reflect.apply(target, thisArg, argumentsList);
+      // forEach returns same array
       const newTarget = typeof ret != 'undefined' ? ret : thisArg
       return new Proxy(newTarget, proxyHandler);
     } else {
-      console.log('elements', target, thisArg, argumentsList);
+      console.log('DOM method', target, thisArg, argumentsList);
+      // Apply on individual elements
       for (const el of thisArg) {
         Reflect.apply(target, el, argumentsList);
       }
