@@ -18,6 +18,7 @@ const proxyHandler = {
     console.log('>> get', target, prop);
     console.log('typeof prop', typeof prop);
 
+    // Return iterator when asked for iterator
     if (prop == Symbol.iterator) {
       return function* () {
         for (let i = 0; i < target.length; i++) {
@@ -26,6 +27,7 @@ const proxyHandler = {
       }
     }
 
+    // Are we dealing with an Array function?
     if (Array.prototype.hasOwnProperty(prop)) {
       const propValue = Reflect.get(array, prop);
       console.log('Array function', propValue);
@@ -33,33 +35,37 @@ const proxyHandler = {
         return new Proxy(propValue, proxyHandler);
       }
     }
-    // then return Proxy(prop)
 
+    // Are we dealing with length property?
     if (prop == 'length') {
       console.log('length', target.length);
       return target.length;
     }
 
+    // Are we dealing with name property?
     if (prop == 'name') {
       return Reflect.get(target, 'name');
     }
 
+    // Are we dealing with a number index?
     if (!isNaN(Number(prop))) {
       console.log(`prop ${prop} is number`);
       return Reflect.get(target, prop);
     }
 
-    if (target.length > 0) {
-      const propValue = Reflect.get(target[0], prop);
-      console.log('**** propValue', propValue);
+    // ??? TODO Need more work
+      if (target.length > 0) {
+        const propValue = Reflect.get(target[0], prop);
+        console.log('**** propValue', propValue);
 
-      if (typeof propValue == 'function') {
-        return new Proxy(propValue, proxyHandler);
-      } else {
-        return propValue;
+        if (typeof propValue == 'function') {
+          return new Proxy(propValue, proxyHandler);
+        } else {
+          return propValue;
+        }
       }
-    }
 
+    // Return property of target
     console.log('last else');
     return Reflect.get(target, prop);
   },
