@@ -57,4 +57,14 @@ describe('$', () => {
     assert.equal(divs[5].getAttribute('title'), 'A div with content item5');
     assert.equal(document.body.textContent, 'item0helloitem2item3item4item5');
   });
+
+  it('textContent empty list', () => {
+    $('div.non-existent').textContent = 'hello';
+    assert.ok(true);
+  });
+
+  it('setAttribute empty list', () => {
+    $('div.non-existent').setAttribute('aria-label', 'List item');
+    assert.ok(true);
+  });
 });
