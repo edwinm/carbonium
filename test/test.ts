@@ -39,15 +39,15 @@ describe('$', () => {
 
   it('combined', () => {
     $('div')
-      .forEach((el) => el.title = 'A div')
+      .forEach((el) => el.title = `A div with content ${el.textContent}`)
       .setAttribute('aria-label', 'List item')
       .filter((el) => el.textContent == 'item1')
       .textContent = 'hello';
     const divs = document.getElementsByTagName('div');
     assert.equal(divs[0].getAttribute('aria-label'), 'List item');
     assert.equal(divs[5].getAttribute('aria-label'), 'List item');
-    assert.equal(divs[0].getAttribute('title'), 'A div');
-    assert.equal(divs[5].getAttribute('title'), 'A div');
+    assert.equal(divs[0].getAttribute('title'), 'A div with content item0');
+    assert.equal(divs[5].getAttribute('title'), 'A div with content item5');
     assert.equal(document.body.textContent, 'item0helloitem2item3item4item5');
   });
 });

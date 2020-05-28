@@ -29,9 +29,7 @@ const proxyHandler = {
 
     // Return iterator when asked for iterator
     if (prop == Symbol.toStringTag) {
-      const r = Reflect.get(target, prop);
-      console.log('r', r);
-      return r;
+      return Reflect.get(target, prop);
     }
 
     // Are we dealing with an Array function?
@@ -51,7 +49,7 @@ const proxyHandler = {
 
     // Are we dealing with name property?
     if (prop == 'name') {
-      return Reflect.get(target, 'name');
+      return Reflect.get(target, prop);
     }
 
     // Are we dealing with a number index?
@@ -60,7 +58,7 @@ const proxyHandler = {
       return Reflect.get(target, prop);
     }
 
-    // ??? TODO Need more work
+    // ??? TODO Needs more work
       if (target.length > 0) {
         const propValue = Reflect.get(target[0], prop);
         console.log('**** propValue', propValue);
