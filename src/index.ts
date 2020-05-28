@@ -11,12 +11,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // miq('p').setAttribute('aria-label', 'List item');
 
-  const el = $('p')
-    .forEach((el) => el.title = 'Hello')
-    .setAttribute('aria-label', 'List item')
-    .filter((el) => el.textContent == 'twee')
-    .textContent = 'bla';
+  // const el = $('p')
+  //   .forEach((el) => el.title = 'Hello')
+  //   .setAttribute('aria-label', 'List item')
+  //   .filter((el) => el.textContent == 'twee')
+  //   .textContent = 'bla';
+  //
+  // console.log('el', el);
 
-  console.log('el', el);
+  $('p').classList.add('some-class');
+
 });
 

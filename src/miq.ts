@@ -15,8 +15,7 @@ export function $(arg, doc?) {
 
 const proxyHandler = {
   get(target, prop) {
-    console.log('>> get', target, prop);
-    console.log('typeof prop', typeof prop);
+    console.log('>> get', target, prop, `(${typeof prop})`);
 
     // Return iterator when asked for iterator
     if (prop == Symbol.iterator) {
@@ -31,6 +30,8 @@ const proxyHandler = {
     if (prop == Symbol.toStringTag) {
       return Reflect.get(target, prop);
     }
+
+    // if (target instanceof NodeList) {
 
     // Are we dealing with an Array function?
     if (Array.prototype.hasOwnProperty(prop)) {
@@ -58,17 +59,17 @@ const proxyHandler = {
       return Reflect.get(target, prop);
     }
 
-    // ??? TODO Needs more work
-      if (target.length > 0) {
-        const propValue = Reflect.get(target[0], prop);
-        console.log('**** propValue', propValue);
+    // TODO document.body might be too restrictive
+    if (prop in HTMLElement.prototype) {
+      const propValue = Reflect.get(document.body, prop);
+      console.log('**** propValue', propValue);
 
-        if (typeof propValue == 'function') {
-          return new Proxy(propValue, proxyHandler);
-        } else {
-          return propValue;
-        }
+      if (typeof propValue == 'function') {
+        return new Proxy(propValue, proxyHandler);
+      } else {
+        return propValue;
       }
+    }
 
     // Return property of target
     console.log('last else');
