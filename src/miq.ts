@@ -27,6 +27,13 @@ const proxyHandler = {
       }
     }
 
+    // Return iterator when asked for iterator
+    if (prop == Symbol.toStringTag) {
+      const r = Reflect.get(target, prop);
+      console.log('r', r);
+      return r;
+    }
+
     // Are we dealing with an Array function?
     if (Array.prototype.hasOwnProperty(prop)) {
       const propValue = Reflect.get(array, prop);

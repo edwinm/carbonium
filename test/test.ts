@@ -34,6 +34,6 @@ describe('$', () => {
     $('div')
       .filter((el) => el.textContent == 'item1')
       .textContent = 'hello';
-    assert.equal(document.body.textContent, 'hellohellohellohellohellohello');
+    assert.equal(document.body.textContent, 'item0helloitem2item3item4item5');
   });
 });
