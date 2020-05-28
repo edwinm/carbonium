@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
   //
   // console.log('el', el);
 
-  $('p').classList.add('some-class');
+  // $('p').classList.add('some-class');
 
 });
 

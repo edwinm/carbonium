@@ -37,12 +37,12 @@ describe('$', () => {
     assert.equal(document.body.textContent, 'item0helloitem2item3item4item5');
   });
 
-  // it('class', () => {
-  //   $('div').classList.add('some-class');
-  //   const divs = document.getElementsByTagName('div');
-  //   assert.ok(divs[0].classList.contains('some-class'));
-  //   assert.ok(divs[5].classList.contains('some-class'));
-  // });
+  it('class', () => {
+    $('div').classList.add('some-class');
+    const divs = document.getElementsByTagName('div');
+    assert.ok(divs[0].classList.contains('some-class'));
+    assert.ok(divs[5].classList.contains('some-class'));
+  });
 
   it('combined', () => {
     $('div')

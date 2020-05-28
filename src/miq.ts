@@ -1,9 +1,11 @@
 // Check https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol/species
 const array = [];
 
+let currentNodelist;
+
 export function $(arg, doc?) {
-  const elements = (doc || document).querySelectorAll(arg);
-  return new Proxy(elements, proxyHandler);
+  currentNodelist = (doc || document).querySelectorAll(arg);
+  return new Proxy(currentNodelist, proxyHandler);
 }
 
 const proxyHandler = {
@@ -18,6 +20,36 @@ const proxyHandler = {
         }
       }
     }
+
+    if (target instanceof NodeList) {
+      currentNodelist = target;
+    }
+
+    if (prop == 'classList') {
+      const propValue = Reflect.get(document.body, prop);
+      return new Proxy(propValue, proxyHandler);
+    }
+
+    // add, contains, remove…
+    if (target instanceof DOMTokenList) {
+      console.log('target instanceof DOMTokenList');
+      const propValue = Reflect.get(document.body.classList, prop);
+
+      if (typeof propValue == 'function') {
+        return new Proxy(propValue, {
+          apply: function (target, thisArg, argumentsList) {
+            for (const el of currentNodelist) {
+              Reflect.apply(target, el.classList, argumentsList);
+            }
+            return currentNodelist;
+          }
+        })
+      } else {
+        return propValue;
+      }
+
+    }
+
 
     // Are we dealing with an Array function?
     if (Array.prototype.hasOwnProperty(prop)) {
