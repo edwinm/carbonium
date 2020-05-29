@@ -1,5 +1,4 @@
 // Check https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol/species
-const array = [];
 
 // Used by classList
 let currentNodelist;
@@ -13,22 +12,13 @@ const proxyHandler = {
   get(target, prop) {
     console.log('>> get', target, prop, `(${typeof prop})`);
 
-    // Return iterator when asked for iterator
-    if (prop == Symbol.iterator) {
-      return function* () {
-        for (let i = 0; i < target.length; i++) {
-          yield target[i];
-        }
-      }
-    }
-
     if (prop == 'classList') {
       currentNodelist = target;
       const propValue = Reflect.get(document.body, prop);
       return new Proxy(propValue, proxyHandler);
     }
 
-    // add, contains, remove…
+    // classList.add, contains, remove…
     if (target instanceof DOMTokenList) {
       const propValue = Reflect.get(document.body.classList, prop);
 
@@ -46,10 +36,9 @@ const proxyHandler = {
       }
     }
 
-
     // Are we dealing with an Array function?
     if (Array.prototype.hasOwnProperty(prop)) {
-      const propValue = Reflect.get(array, prop);
+      const propValue = Reflect.get(Array.prototype, prop);
       console.log('Array prop', propValue);
       if (typeof propValue == 'function') {
         return new Proxy(propValue, proxyHandler);
@@ -67,12 +56,6 @@ const proxyHandler = {
       } else {
         return propValue;
       }
-    }
-
-    // Are we dealing with length property?
-    if (prop == 'length') {
-      console.log('length', target.length);
-      return target.length;
     }
 
     return Reflect.get(target, prop);
