@@ -4,9 +4,9 @@ export function $(arg: string, doc?: Document): any {
 }
 
 // Used by classList
-let classListNodelist: NodeListOf<Element>;
+let classListNodelist: NodeListOf<HTMLElement>;
 
-const proxyHandler: ProxyHandler<NodeListOf<Element>> = {
+const proxyHandler: ProxyHandler<NodeListOf<HTMLElement>> = {
   get(target, prop) {
     // Special case for classList
     if (prop == 'classList') {
@@ -40,7 +40,7 @@ const proxyHandler: ProxyHandler<NodeListOf<Element>> = {
         return new Proxy<Function>(propValue, {
           apply: function (target, thisArg, argumentsList) {
             const ret = Reflect.apply(target, thisArg, argumentsList);
-            // forEach returns same array
+            // forEach returns same array instead of undefined
             const newTarget = typeof ret != 'undefined' ? ret : thisArg
             return new Proxy(newTarget, proxyHandler);
           }
