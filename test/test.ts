@@ -100,4 +100,13 @@ describe('$', () => {
       $('div.non-existent').setAttribute('aria-label', 'List item');
     });
   });
+
+  it('call element specific function', () => {
+    const input = document.createElement('input');
+    document.querySelector('div:first-child').appendChild(input);
+    assert.doesNotThrow(() => {
+      $('input').select();
+    });
+  });
+
 });

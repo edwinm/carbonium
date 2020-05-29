@@ -42,14 +42,26 @@ const proxyHandler = {
       }
     }
 
-    // Are we dealing with an DOM property or function?
-    // TODO document.body might be too restrictive
-    if (prop in HTMLElement.prototype) {
-      const propValue = Reflect.get(document.body, prop);
-      if (typeof propValue == 'function') {
-        return new Proxy(propValue, proxyHandler);
-      } else {
-        return propValue;
+    // Get property of call function on DOM elements
+    if (target.length > 0) {
+      // Might be DOM element specific, like input.select(), so use first array element to get reference
+      if (prop in target[0]) {
+        const propValue = Reflect.get(target[0], prop);
+        if (typeof propValue == 'function') {
+          return new Proxy(propValue, proxyHandler);
+        } else {
+          return propValue;
+        }
+      }
+    } else {
+      // Empty list, DOM element unknown, use HTMLElement and document.body
+      if (prop in HTMLElement.prototype) {
+        const propValue = Reflect.get(document.body, prop);
+        if (typeof propValue == 'function') {
+          return new Proxy(propValue, proxyHandler);
+        } else {
+          return propValue;
+        }
       }
     }
 
