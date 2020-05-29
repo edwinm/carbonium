@@ -37,7 +37,14 @@ const proxyHandler: ProxyHandler<NodeListOf<Element>> = {
     if (Array.prototype.hasOwnProperty(prop)) {
       const propValue = Reflect.get(Array.prototype, prop);
       if (typeof propValue == 'function') {
-        return new Proxy(propValue, proxyFunctionHandler);
+        return new Proxy<Function>(propValue, {
+          apply: function (target, thisArg, argumentsList) {
+            const ret = Reflect.apply(target, thisArg, argumentsList);
+            // forEach returns same array
+            const newTarget = typeof ret != 'undefined' ? ret : thisArg
+            return new Proxy(newTarget, proxyHandler);
+          }
+        });
       }
     }
 
@@ -48,18 +55,18 @@ const proxyHandler: ProxyHandler<NodeListOf<Element>> = {
       if (prop in target[0]) {
         const propValue = Reflect.get(target[0], prop);
         if (typeof propValue == 'function') {
-          return new Proxy(propValue, proxyFunctionHandler);
+          return new Proxy(propValue, proxyDOMFunctionHandler);
         } else {
           return propValue;
         }
       }
     } else {
       // Empty list, targeted DOM element unknown,
-      // use HTMLElement and document.body
+      // use document.body
       if (prop in document.body) {
         const propValue = Reflect.get(document.body, prop);
         if (typeof propValue == 'function') {
-          return new Proxy(propValue, proxyFunctionHandler);
+          return new Proxy(propValue, proxyDOMFunctionHandler);
         } else {
           return propValue;
         }
@@ -70,6 +77,7 @@ const proxyHandler: ProxyHandler<NodeListOf<Element>> = {
     return Reflect.get(target, prop);
   },
 
+  // DOM property is set
   set(target, prop, value) {
     target.forEach((el) => {
       Reflect.set(el, prop, value);
@@ -78,20 +86,13 @@ const proxyHandler: ProxyHandler<NodeListOf<Element>> = {
   },
 };
 
-const proxyFunctionHandler: ProxyHandler<Function> = {
+const proxyDOMFunctionHandler: ProxyHandler<Function> = {
   apply: function (target, thisArg, argumentsList) {
-    if (Array.prototype.hasOwnProperty(target.name)) {
-      const ret = Reflect.apply(target, thisArg, argumentsList);
-      // forEach returns same array
-      const newTarget = typeof ret != 'undefined' ? ret : thisArg
-      return new Proxy(newTarget, proxyHandler);
-    } else {
-      // Apply on individual elements
-      for (const el of thisArg) {
-        Reflect.apply(target, el, argumentsList);
-      }
-      return thisArg;
+    // Apply on individual elements
+    for (const el of thisArg) {
+      Reflect.apply(target, el, argumentsList);
     }
+    return thisArg;
   },
 }
 
