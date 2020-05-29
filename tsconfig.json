@@ -4,7 +4,7 @@
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
         "lib": ["dom", "es6"],
-        "module": "ES2015",
+        "module": "es6",
         "target": "es6",
         "moduleResolution": "node",
         "sourceMap": true,

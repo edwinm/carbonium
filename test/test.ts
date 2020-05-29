@@ -7,7 +7,6 @@ import { $ } from '../src/miq';
  * Assert https://nodejs.org/api/assert.html
  */
 
-
 describe('$', () => {
   beforeEach(() => {
     document.body.textContent = '';

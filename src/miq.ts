@@ -1,12 +1,12 @@
 // Used by classList
-let classListNodelist;
+let classListNodelist: NodeListOf<Element>;
 
-export function $(arg, doc?) {
+export function $(arg: string, doc?: Document): any {
   const nodelist = (doc || document).querySelectorAll(arg);
   return new Proxy(nodelist, proxyHandler);
 }
 
-const proxyHandler = {
+const proxyHandler: ProxyHandler<NodeListOf<Element>> = {
   get(target, prop) {
     // Special case for classList
     if (prop == 'classList') {
@@ -22,9 +22,9 @@ const proxyHandler = {
       if (typeof propValue == 'function') {
         return new Proxy(propValue, {
           apply: function (target, thisArg, argumentsList) {
-            for (const el of classListNodelist) {
+            classListNodelist.forEach((el) => {
               Reflect.apply(target, el.classList, argumentsList);
-            }
+            });
             return new Proxy(classListNodelist, proxyHandler);
           }
         })
@@ -69,22 +69,23 @@ const proxyHandler = {
   },
 
   set(target, prop, value) {
-    for (const el of target) {
+    target.forEach((el) => {
       Reflect.set(el, prop, value);
-    }
+    });
     return true;
   },
 
   apply: function (target, thisArg, argumentsList) {
-    if (typeof target.name == 'string' && Array.prototype.hasOwnProperty(target.name)) {
-      const ret = Reflect.apply(target, thisArg, argumentsList);
+    const targetFn = <Function><any>target;
+    if (Array.prototype.hasOwnProperty(targetFn.name)) {
+      const ret = Reflect.apply(targetFn, thisArg, argumentsList);
       // forEach returns same array
       const newTarget = typeof ret != 'undefined' ? ret : thisArg
       return new Proxy(newTarget, proxyHandler);
     } else {
       // Apply on individual elements
       for (const el of thisArg) {
-        Reflect.apply(target, el, argumentsList);
+        Reflect.apply(targetFn, el, argumentsList);
       }
       return thisArg;
     }
