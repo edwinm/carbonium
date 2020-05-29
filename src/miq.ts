@@ -1,6 +1,7 @@
 // Check https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol/species
 const array = [];
 
+// Used by classList
 let currentNodelist;
 
 export function $(arg, doc?) {
@@ -21,18 +22,14 @@ const proxyHandler = {
       }
     }
 
-    if (target instanceof NodeList) {
-      currentNodelist = target;
-    }
-
     if (prop == 'classList') {
+      currentNodelist = target;
       const propValue = Reflect.get(document.body, prop);
       return new Proxy(propValue, proxyHandler);
     }
 
     // add, contains, remove…
     if (target instanceof DOMTokenList) {
-      console.log('target instanceof DOMTokenList');
       const propValue = Reflect.get(document.body.classList, prop);
 
       if (typeof propValue == 'function') {
@@ -41,13 +38,12 @@ const proxyHandler = {
             for (const el of currentNodelist) {
               Reflect.apply(target, el.classList, argumentsList);
             }
-            return currentNodelist;
+            return new Proxy(currentNodelist, proxyHandler);
           }
         })
       } else {
         return propValue;
       }
-
     }
 
 

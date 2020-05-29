@@ -1,6 +1,13 @@
 import * as assert from 'assert';
 import { $ } from '../src/miq';
 
+/**
+ * Test framework used:
+ * Mocha https://mochajs.org/
+ * Assert https://nodejs.org/api/assert.html
+ */
+
+
 describe('$', () => {
   beforeEach(() => {
     document.body.textContent = '';
@@ -37,11 +44,26 @@ describe('$', () => {
     assert.equal(document.body.textContent, 'item0helloitem2item3item4item5');
   });
 
-  it('class', () => {
+  it('class add method', () => {
     $('div').classList.add('some-class');
     const divs = document.getElementsByTagName('div');
     assert.ok(divs[0].classList.contains('some-class'));
     assert.ok(divs[5].classList.contains('some-class'));
+  });
+
+  it('class value property', () => {
+    $('div').classList.add('some-class');
+    const divs = document.getElementsByTagName('div');
+    assert.equal(divs[0].classList.value, 'some-class');
+  });
+
+  it('class add method and textContent property', () => {
+    $('div:first-child').classList.add('some-class').textContent = 'hello';
+    const divs = document.getElementsByTagName('div');
+    assert.ok(divs[0].classList.contains('some-class'));
+    assert.ok(!divs[5].classList.contains('some-class'));
+    assert.equal(divs[0].textContent, 'hello');
+    assert.equal(divs[5].textContent, 'item5');
   });
 
   it('combined', () => {
@@ -59,12 +81,14 @@ describe('$', () => {
   });
 
   it('textContent empty list', () => {
-    $('div.non-existent').textContent = 'hello';
-    assert.ok(true);
+    assert.doesNotThrow(()=>{
+      $('div.non-existent').textContent = 'hello';
+    });
   });
 
   it('setAttribute empty list', () => {
-    $('div.non-existent').setAttribute('aria-label', 'List item');
-    assert.ok(true);
+    assert.doesNotThrow(()=>{
+      $('div.non-existent').setAttribute('aria-label', 'List item');
+    });
   });
 });
