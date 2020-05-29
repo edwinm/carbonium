@@ -10,8 +10,6 @@ export function $(arg, doc?) {
 
 const proxyHandler = {
   get(target, prop) {
-    console.log('>> get', target, prop, `(${typeof prop})`);
-
     if (prop == 'classList') {
       currentNodelist = target;
       const propValue = Reflect.get(document.body, prop);
@@ -39,7 +37,6 @@ const proxyHandler = {
     // Are we dealing with an Array function?
     if (Array.prototype.hasOwnProperty(prop)) {
       const propValue = Reflect.get(Array.prototype, prop);
-      console.log('Array prop', propValue);
       if (typeof propValue == 'function') {
         return new Proxy(propValue, proxyHandler);
       }
@@ -49,8 +46,6 @@ const proxyHandler = {
     // TODO document.body might be too restrictive
     if (prop in HTMLElement.prototype) {
       const propValue = Reflect.get(document.body, prop);
-      console.log('DOM prop', propValue);
-
       if (typeof propValue == 'function') {
         return new Proxy(propValue, proxyHandler);
       } else {
@@ -62,7 +57,6 @@ const proxyHandler = {
   },
 
   set(target, prop, value) {
-    console.log('>> set', target, prop, value);
     for (const el of target) {
       Reflect.set(el, prop, value);
     }
@@ -70,15 +64,12 @@ const proxyHandler = {
   },
 
   apply: function (target, thisArg, argumentsList) {
-    console.log('>> apply', target, thisArg, argumentsList);
     if (typeof target.name == 'string' && Array.prototype.hasOwnProperty(target.name)) {
-      console.log('Array method', target, thisArg, argumentsList);
       const ret = Reflect.apply(target, thisArg, argumentsList);
       // forEach returns same array
       const newTarget = typeof ret != 'undefined' ? ret : thisArg
       return new Proxy(newTarget, proxyHandler);
     } else {
-      console.log('DOM method', target, thisArg, argumentsList);
       // Apply on individual elements
       for (const el of thisArg) {
         Reflect.apply(target, el, argumentsList);
