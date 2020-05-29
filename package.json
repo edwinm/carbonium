@@ -2,12 +2,11 @@
     "name": "playground",
     "version": "1.0.0",
     "description": "Playground",
-    "main": "playground.js",
+    "module": "dist/bundle.min.js",
     "scripts": {
-        "start": "http-server -o --silent",
+        "start": "http-server -o demo/ --silent",
         "build": "rollup --config --sourcemap",
         "dev": "rollup --config --sourcemap --watch",
-        "watch": "npm-run-all --parallel start dev",
         "test": "karma start"
     },
     "repository": {
