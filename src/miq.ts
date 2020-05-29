@@ -10,6 +10,7 @@ export function $(arg, doc?) {
 
 const proxyHandler = {
   get(target, prop) {
+    // Special case for classList
     if (prop == 'classList') {
       currentNodelist = target;
       const propValue = Reflect.get(document.body, prop);

@@ -29,6 +29,10 @@ describe('$', () => {
     assert.equal(document.body.textContent, 'hellohellohellohellohellohello');
   });
 
+  it('length', () => {
+    assert.equal($('div').length, 6);
+  });
+
   it('setAttribute all elements', () => {
     $('div').setAttribute('aria-label', 'List item');
     const divs = document.getElementsByTagName('div');
