@@ -66,6 +66,15 @@ describe('$', () => {
     assert.equal(divs[5].textContent, 'item5');
   });
 
+  it('filter and class add method and textContent property', () => {
+    $('div').filter((el) => el.textContent == 'item0').classList.add('some-class').textContent = 'hello';
+    const divs = document.getElementsByTagName('div');
+    assert.ok(divs[0].classList.contains('some-class'));
+    assert.ok(!divs[5].classList.contains('some-class'));
+    assert.equal(divs[0].textContent, 'hello');
+    assert.equal(divs[5].textContent, 'item5');
+  });
+
   it('combined', () => {
     $('div')
       .forEach((el) => el.title = `A div with content ${el.textContent}`)
@@ -81,13 +90,13 @@ describe('$', () => {
   });
 
   it('textContent empty list', () => {
-    assert.doesNotThrow(()=>{
+    assert.doesNotThrow(() => {
       $('div.non-existent').textContent = 'hello';
     });
   });
 
   it('setAttribute empty list', () => {
-    assert.doesNotThrow(()=>{
+    assert.doesNotThrow(() => {
       $('div.non-existent').setAttribute('aria-label', 'List item');
     });
   });
