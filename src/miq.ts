@@ -1,18 +1,16 @@
-// Check https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol/species
-
 // Used by classList
-let currentNodelist;
+let classListNodelist;
 
 export function $(arg, doc?) {
-  currentNodelist = (doc || document).querySelectorAll(arg);
-  return new Proxy(currentNodelist, proxyHandler);
+  const nodelist = (doc || document).querySelectorAll(arg);
+  return new Proxy(nodelist, proxyHandler);
 }
 
 const proxyHandler = {
   get(target, prop) {
     // Special case for classList
     if (prop == 'classList') {
-      currentNodelist = target;
+      classListNodelist = target;
       const propValue = Reflect.get(document.body, prop);
       return new Proxy(propValue, proxyHandler);
     }
@@ -24,10 +22,10 @@ const proxyHandler = {
       if (typeof propValue == 'function') {
         return new Proxy(propValue, {
           apply: function (target, thisArg, argumentsList) {
-            for (const el of currentNodelist) {
+            for (const el of classListNodelist) {
               Reflect.apply(target, el.classList, argumentsList);
             }
-            return new Proxy(currentNodelist, proxyHandler);
+            return new Proxy(classListNodelist, proxyHandler);
           }
         })
       } else {
@@ -43,7 +41,7 @@ const proxyHandler = {
       }
     }
 
-    // Get property of call function on DOM elements
+    // Get property or call function on DOM elements
     if (target.length > 0) {
       // Might be DOM element specific, like input.select(), so use first array element to get reference
       if (prop in target[0]) {
@@ -55,8 +53,8 @@ const proxyHandler = {
         }
       }
     } else {
-      // Empty list, DOM element unknown, use HTMLElement and document.body
-      if (prop in HTMLElement.prototype) {
+      // Empty list, targeted DOM element unknown, use HTMLElement and document.body
+      if (prop in document.body) {
         const propValue = Reflect.get(document.body, prop);
         if (typeof propValue == 'function') {
           return new Proxy(propValue, proxyHandler);
@@ -66,6 +64,7 @@ const proxyHandler = {
       }
     }
 
+    // Default
     return Reflect.get(target, prop);
   },
 
