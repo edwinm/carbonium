@@ -8,6 +8,16 @@ let classListNodelist: NodeListOf<HTMLElement>;
 
 const proxyHandler: ProxyHandler<NodeListOf<HTMLElement>> = {
   get(target, prop) {
+
+    // Return iterator when asked for iterator
+    if (prop == Symbol.iterator) {
+      return function* () {
+        for (let i = 0; i < target.length; i++) {
+          yield target[i];
+        }
+      }
+    }
+
     // Special case for classList
     if (prop == 'classList') {
       classListNodelist = target;

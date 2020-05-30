@@ -112,4 +112,10 @@ describe('$', () => {
     });
   });
 
+  it('addEventListener', (done) => {
+    $('div:first-child').addEventListener('click', () => {
+      done()
+    });
+    $('div:first-child').click();
+  });
 });
