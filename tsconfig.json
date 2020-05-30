@@ -8,6 +8,8 @@
         "target": "es6",
         "moduleResolution": "node",
         "sourceMap": true,
-        "esModuleInterop": true
-    }
+        "esModuleInterop": true,
+        "declaration": true
+    },
+    "include": ["src"]
 }
