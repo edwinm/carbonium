@@ -2,6 +2,7 @@
     "name": "playground",
     "version": "1.0.0",
     "description": "Playground",
+    "main": "dist/bundle.common.min.js",
     "module": "dist/bundle.min.js",
     "scripts": {
         "start": "http-server -o demo/ --silent",
