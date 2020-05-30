@@ -1,3 +1,9 @@
+/**!
+ @preserve miq 2.0
+ @copyright 2020 Edwin Martin
+ @license MIT
+ */
+
 export function $(arg: string, doc?: Document): any {
   const nodelist = (doc || document).querySelectorAll(arg);
   return new Proxy(nodelist, proxyHandler);
@@ -8,18 +14,17 @@ let classListNodelist: NodeListOf<HTMLElement>;
 
 const proxyHandler: ProxyHandler<NodeListOf<HTMLElement>> = {
   get(target, prop) {
-
     // Return iterator when asked for iterator
     if (prop == Symbol.iterator) {
       return function* () {
         for (let i = 0; i < target.length; i++) {
           yield target[i];
         }
-      }
+      };
     }
 
     // Special case for classList
-    if (prop == 'classList') {
+    if (prop == "classList") {
       classListNodelist = target;
       const propValue = Reflect.get(document.body, prop);
       return new Proxy(propValue, proxyHandler);
@@ -29,15 +34,15 @@ const proxyHandler: ProxyHandler<NodeListOf<HTMLElement>> = {
     if (target instanceof DOMTokenList) {
       const propValue = Reflect.get(document.body.classList, prop);
 
-      if (typeof propValue == 'function') {
+      if (typeof propValue == "function") {
         return new Proxy<Function>(propValue, {
           apply: function (target, thisArg, argumentsList) {
             classListNodelist.forEach((el) => {
               Reflect.apply(target, el.classList, argumentsList);
             });
             return new Proxy(classListNodelist, proxyHandler);
-          }
-        })
+          },
+        });
       } else {
         return propValue;
       }
@@ -46,14 +51,14 @@ const proxyHandler: ProxyHandler<NodeListOf<HTMLElement>> = {
     // Are we dealing with an Array function?
     if (Array.prototype.hasOwnProperty(prop)) {
       const propValue = Reflect.get(Array.prototype, prop);
-      if (typeof propValue == 'function') {
+      if (typeof propValue == "function") {
         return new Proxy<Function>(propValue, {
           apply: function (target, thisArg, argumentsList) {
             const ret = Reflect.apply(target, thisArg, argumentsList);
             // forEach returns same array instead of undefined
-            const newTarget = typeof ret != 'undefined' ? ret : thisArg
+            const newTarget = typeof ret != "undefined" ? ret : thisArg;
             return new Proxy(newTarget, proxyHandler);
-          }
+          },
         });
       }
     }
@@ -64,7 +69,7 @@ const proxyHandler: ProxyHandler<NodeListOf<HTMLElement>> = {
       // so use first array element to get reference
       if (prop in target[0]) {
         const propValue = Reflect.get(target[0], prop);
-        if (typeof propValue == 'function') {
+        if (typeof propValue == "function") {
           return new Proxy(propValue, proxyDOMFunctionHandler);
         } else {
           return propValue;
@@ -75,7 +80,7 @@ const proxyHandler: ProxyHandler<NodeListOf<HTMLElement>> = {
       // use document.body
       if (prop in document.body) {
         const propValue = Reflect.get(document.body, prop);
-        if (typeof propValue == 'function') {
+        if (typeof propValue == "function") {
           return new Proxy(propValue, proxyDOMFunctionHandler);
         } else {
           return propValue;
@@ -104,6 +109,4 @@ const proxyDOMFunctionHandler: ProxyHandler<Function> = {
     }
     return thisArg;
   },
-}
-
-
+};
