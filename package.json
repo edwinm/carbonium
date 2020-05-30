@@ -5,6 +5,7 @@
     "main": "dist/bundle.common.min.js",
     "module": "dist/bundle.min.js",
     "types": "dist/miq.d.ts",
+    "sideEffects": false,
     "scripts": {
         "start": "http-server -o demo/ --silent",
         "build": "rollup --config --sourcemap",
