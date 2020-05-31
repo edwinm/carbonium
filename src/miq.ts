@@ -5,8 +5,10 @@
  */
 
 export function $(arg: string, doc?: Document): any {
-  const nodelist = (doc || document).querySelectorAll(arg);
-  return new Proxy(nodelist, proxyHandler);
+  const nodelist: NodeListOf<HTMLElement> = (doc || document).querySelectorAll(
+    arg
+  );
+  return new Proxy<NodeListOf<HTMLElement>>(nodelist, proxyHandler);
 }
 
 // Used by classList
