@@ -1,10 +1,10 @@
 {
-  "name": "playground",
-  "version": "1.0.0",
-  "description": "Playground",
+  "name": "carbonium",
+  "version": "0.1.0",
+  "description": "Carbonium, for easy manipulation of the DOM",
   "main": "dist/bundle.common.min.js",
   "module": "dist/bundle.min.js",
-  "types": "dist/miq.d.ts",
+  "types": "dist/carbonium.d.ts",
   "sideEffects": false,
   "scripts": {
     "start": "http-server -o demo/ --silent",
@@ -15,7 +15,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/edwinm/playground.git"
+    "url": "git+https://github.com/edwinm/carbonium.git"
   },
   "author": {
     "name": "Edwin Martin",
@@ -24,9 +24,9 @@
   },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/edwinm/playground/issues"
+    "url": "https://github.com/edwinm/carbonium/issues"
   },
-  "homepage": "https://github.com/edwinm/playground#readme",
+  "homepage": "https://github.com/edwinm/carbonium#readme",
   "dependencies": {},
   "devDependencies": {
     "@types/mocha": "^7.0.2",
