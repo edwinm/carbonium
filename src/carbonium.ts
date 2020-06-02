@@ -4,11 +4,13 @@
  @license MIT
  */
 
-export function $(arg: string, doc?: Document): any {
+export function $(arg: string, doc?: Document): CarboniumList {
   const nodelist: NodeListOf<HTMLElement> = (doc || document).querySelectorAll(
     arg
   );
-  return new Proxy<NodeListOf<HTMLElement>>(nodelist, proxyHandler);
+  return <CarboniumList>(
+    (<any>new Proxy<NodeListOf<HTMLElement>>(nodelist, proxyHandler))
+  );
 }
 
 // Used by classList
@@ -112,3 +114,48 @@ const proxyDOMFunctionHandler: ProxyHandler<Function> = {
     return thisArg;
   },
 };
+
+// TODO: Replace HTMLInputElement with union of all possible elements
+type CarboniumType = HTMLInputElement & Array<HTMLElement>;
+
+// TODO: Needs more finetuning
+interface CarboniumList extends CarboniumType {
+  concat(...items: ConcatArray<HTMLElement>[]): CarboniumList;
+  concat(...items: (HTMLElement | ConcatArray<HTMLElement>)[]): CarboniumList;
+  reverse(): CarboniumList;
+  slice(start?: number, end?: number): CarboniumList;
+  splice(start: number, deleteCount?: number): CarboniumList;
+  splice(
+    start: number,
+    deleteCount: number,
+    ...items: HTMLElement[]
+  ): CarboniumList;
+  forEach(
+    callbackfn: (
+      value: HTMLElement,
+      index: number,
+      array: HTMLElement[]
+    ) => void,
+    thisArg?: any
+  ): CarboniumList;
+  filter(
+    callbackfn: (
+      value: HTMLElement,
+      index: number,
+      array: HTMLElement[]
+    ) => boolean,
+    thisArg?: any
+  ): CarboniumList;
+  classList: CarboniumClassList;
+  setAttribute(qualifiedName: string, value: string): CarboniumList;
+}
+
+interface CarboniumClassList extends DOMTokenList {
+  add(...tokens: string[]): CarboniumList;
+  remove(...tokens: string[]): CarboniumList;
+  replace(oldToken: string, newToken: string): CarboniumList;
+  forEach(
+    callbackfn: (value: string, key: number, parent: DOMTokenList) => void,
+    thisArg?: any
+  ): CarboniumList;
+}

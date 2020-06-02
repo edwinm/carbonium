@@ -2,15 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="89a9b866-c216-4633-90e5-b83d572efe3f" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/dist/bundle.common.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/dist/bundle.common.min.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/bundle.common.min.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/dist/bundle.common.min.js.map" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/bundle.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/dist/bundle.min.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/bundle.min.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/dist/bundle.min.js.map" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/miq.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rollup.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/rollup.config.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/miq.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/carbonium.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/test.ts" beforeDir="false" afterPath="$PROJECT_DIR$/test/test.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/carbonium.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/carbonium.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -32,6 +25,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="true" />
+    <property name="add_unversioned_files" value="$PROJECT_DIR$/node_modules/typescript/lib/lib.dom.d.ts&#10;/Users/edwinm/Documents/Develop/carbonium/coverage/Chrome Headless 83.0.4103.61 (Mac OS 10.15.5)/html/index.html" />
     <property name="dart.analysis.tool.window.visible" value="false" />
     <property name="js.last.introduce.type" value="CONST" />
     <property name="js.linters.configure.manually.selectedeslint" value="true" />
@@ -86,6 +80,9 @@
       <workItem from="1590682080814" duration="171000" />
       <workItem from="1590682931601" duration="38234000" />
       <workItem from="1591020916215" duration="626000" />
+      <workItem from="1591028485955" duration="1484000" />
+      <workItem from="1591047153933" duration="1277000" />
+      <workItem from="1591082211813" duration="2362000" />
     </task>
     <servers />
   </component>
@@ -101,37 +98,53 @@
       <screen x="0" y="23" width="1637" height="1027" />
     </state>
     <state x="552" y="345" key="#com.intellij.fileTypes.FileTypeChooser/0.23.1637.1027@0.23.1637.1027" timestamp="1590876821776" />
-    <state width="1066" height="284" key="GridCell.Tab.0.bottom" timestamp="1590613360270">
-      <screen x="0" y="23" width="1638" height="1027" />
+    <state width="1594" height="284" key="GridCell.Tab.0.bottom" timestamp="1591040882888">
+      <screen x="0" y="23" width="1635" height="1027" />
     </state>
+    <state width="0" height="0" key="GridCell.Tab.0.bottom/0.23.1633.1027@0.23.1633.1027" timestamp="1591040532548" />
+    <state width="1594" height="284" key="GridCell.Tab.0.bottom/0.23.1635.1027@0.23.1635.1027" timestamp="1591040882888" />
     <state width="1066" height="284" key="GridCell.Tab.0.bottom/0.23.1638.1027@0.23.1638.1027" timestamp="1590613360270" />
-    <state width="1066" height="284" key="GridCell.Tab.0.center" timestamp="1590613360269">
-      <screen x="0" y="23" width="1638" height="1027" />
+    <state width="1594" height="284" key="GridCell.Tab.0.center" timestamp="1591040882887">
+      <screen x="0" y="23" width="1635" height="1027" />
     </state>
+    <state width="0" height="0" key="GridCell.Tab.0.center/0.23.1633.1027@0.23.1633.1027" timestamp="1591040532547" />
+    <state width="1594" height="284" key="GridCell.Tab.0.center/0.23.1635.1027@0.23.1635.1027" timestamp="1591040882887" />
     <state width="1066" height="284" key="GridCell.Tab.0.center/0.23.1638.1027@0.23.1638.1027" timestamp="1590613360269" />
-    <state width="1066" height="284" key="GridCell.Tab.0.left" timestamp="1590613360269">
-      <screen x="0" y="23" width="1638" height="1027" />
+    <state width="1594" height="284" key="GridCell.Tab.0.left" timestamp="1591040882887">
+      <screen x="0" y="23" width="1635" height="1027" />
     </state>
+    <state width="0" height="0" key="GridCell.Tab.0.left/0.23.1633.1027@0.23.1633.1027" timestamp="1591040532546" />
+    <state width="1594" height="284" key="GridCell.Tab.0.left/0.23.1635.1027@0.23.1635.1027" timestamp="1591040882887" />
     <state width="1066" height="284" key="GridCell.Tab.0.left/0.23.1638.1027@0.23.1638.1027" timestamp="1590613360269" />
-    <state width="1066" height="284" key="GridCell.Tab.0.right" timestamp="1590613360269">
-      <screen x="0" y="23" width="1638" height="1027" />
+    <state width="1594" height="284" key="GridCell.Tab.0.right" timestamp="1591040882888">
+      <screen x="0" y="23" width="1635" height="1027" />
     </state>
+    <state width="0" height="0" key="GridCell.Tab.0.right/0.23.1633.1027@0.23.1633.1027" timestamp="1591040532548" />
+    <state width="1594" height="284" key="GridCell.Tab.0.right/0.23.1635.1027@0.23.1635.1027" timestamp="1591040882888" />
     <state width="1066" height="284" key="GridCell.Tab.0.right/0.23.1638.1027@0.23.1638.1027" timestamp="1590613360269" />
-    <state width="1066" height="284" key="GridCell.Tab.1.bottom" timestamp="1590613360271">
-      <screen x="0" y="23" width="1638" height="1027" />
+    <state width="1594" height="284" key="GridCell.Tab.1.bottom" timestamp="1591040882889">
+      <screen x="0" y="23" width="1635" height="1027" />
     </state>
+    <state width="1594" height="284" key="GridCell.Tab.1.bottom/0.23.1633.1027@0.23.1633.1027" timestamp="1591040538507" />
+    <state width="1594" height="284" key="GridCell.Tab.1.bottom/0.23.1635.1027@0.23.1635.1027" timestamp="1591040882889" />
     <state width="1066" height="284" key="GridCell.Tab.1.bottom/0.23.1638.1027@0.23.1638.1027" timestamp="1590613360271" />
-    <state width="1066" height="284" key="GridCell.Tab.1.center" timestamp="1590613360271">
-      <screen x="0" y="23" width="1638" height="1027" />
+    <state width="1594" height="284" key="GridCell.Tab.1.center" timestamp="1591040882889">
+      <screen x="0" y="23" width="1635" height="1027" />
     </state>
+    <state width="1594" height="284" key="GridCell.Tab.1.center/0.23.1633.1027@0.23.1633.1027" timestamp="1591040538506" />
+    <state width="1594" height="284" key="GridCell.Tab.1.center/0.23.1635.1027@0.23.1635.1027" timestamp="1591040882889" />
     <state width="1066" height="284" key="GridCell.Tab.1.center/0.23.1638.1027@0.23.1638.1027" timestamp="1590613360271" />
-    <state width="1066" height="284" key="GridCell.Tab.1.left" timestamp="1590613360270">
-      <screen x="0" y="23" width="1638" height="1027" />
+    <state width="1594" height="284" key="GridCell.Tab.1.left" timestamp="1591040882888">
+      <screen x="0" y="23" width="1635" height="1027" />
     </state>
+    <state width="1594" height="284" key="GridCell.Tab.1.left/0.23.1633.1027@0.23.1633.1027" timestamp="1591040538505" />
+    <state width="1594" height="284" key="GridCell.Tab.1.left/0.23.1635.1027@0.23.1635.1027" timestamp="1591040882888" />
     <state width="1066" height="284" key="GridCell.Tab.1.left/0.23.1638.1027@0.23.1638.1027" timestamp="1590613360270" />
-    <state width="1066" height="284" key="GridCell.Tab.1.right" timestamp="1590613360271">
-      <screen x="0" y="23" width="1638" height="1027" />
+    <state width="1594" height="284" key="GridCell.Tab.1.right" timestamp="1591040882889">
+      <screen x="0" y="23" width="1635" height="1027" />
     </state>
+    <state width="1594" height="284" key="GridCell.Tab.1.right/0.23.1633.1027@0.23.1633.1027" timestamp="1591040538506" />
+    <state width="1594" height="284" key="GridCell.Tab.1.right/0.23.1635.1027@0.23.1635.1027" timestamp="1591040882889" />
     <state width="1066" height="284" key="GridCell.Tab.1.right/0.23.1638.1027@0.23.1638.1027" timestamp="1590613360271" />
     <state x="2439" y="-678" key="SettingsEditor" timestamp="1591002736216">
       <screen x="1680" y="-994" width="3776" height="2137" />
@@ -147,5 +160,8 @@
       <screen x="1680" y="-994" width="3776" height="2137" />
     </state>
     <state x="4149" y="-143" width="619" height="490" key="find.popup/1680.-994.3776.2137/0.23.1680.1027@1680.-994.3776.2137" timestamp="1591021305839" />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/carbonium$Unit_test.dat" NAME="Unit test Coverage Results" MODIFIED="1591040538822" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="KarmaJavaScriptTestRunnerCoverage" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
   </component>
 </project>
