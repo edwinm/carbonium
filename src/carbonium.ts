@@ -14,7 +14,7 @@ export function $(arg: string, doc?: Document): CarboniumList {
 }
 
 // Used by classList
-let classListNodelist: NodeListOf<HTMLElement>;
+let currentListNodelist: NodeListOf<HTMLElement>;
 
 const proxyHandler: ProxyHandler<NodeListOf<HTMLElement>> = {
   get(target, prop) {
@@ -27,9 +27,34 @@ const proxyHandler: ProxyHandler<NodeListOf<HTMLElement>> = {
       };
     }
 
+    // Special case for style
+    if (prop == "style") {
+      currentListNodelist = target;
+      const propValue = Reflect.get(document.body, prop);
+      return new Proxy(propValue, proxyHandler);
+    }
+
+    // classList.add, contains, remove…
+    if (target instanceof CSSStyleDeclaration) {
+      const propValue = Reflect.get(document.body.style, prop);
+
+      if (typeof propValue == "function") {
+        return new Proxy<Function>(propValue, {
+          apply: function (target, thisArg, argumentsList) {
+            currentListNodelist.forEach((el) => {
+              Reflect.apply(target, el.style, argumentsList);
+            });
+            return new Proxy(currentListNodelist, proxyHandler);
+          },
+        });
+      } else {
+        return propValue;
+      }
+    }
+
     // Special case for classList
     if (prop == "classList") {
-      classListNodelist = target;
+      currentListNodelist = target;
       const propValue = Reflect.get(document.body, prop);
       return new Proxy(propValue, proxyHandler);
     }
@@ -41,10 +66,10 @@ const proxyHandler: ProxyHandler<NodeListOf<HTMLElement>> = {
       if (typeof propValue == "function") {
         return new Proxy<Function>(propValue, {
           apply: function (target, thisArg, argumentsList) {
-            classListNodelist.forEach((el) => {
+            currentListNodelist.forEach((el) => {
               Reflect.apply(target, el.classList, argumentsList);
             });
-            return new Proxy(classListNodelist, proxyHandler);
+            return new Proxy(currentListNodelist, proxyHandler);
           },
         });
       } else {
@@ -146,8 +171,9 @@ interface CarboniumList extends CarboniumType {
     ) => boolean,
     thisArg?: any
   ): CarboniumList;
-  classList: CarboniumClassList;
   setAttribute(qualifiedName: string, value: string): CarboniumList;
+  classList: CarboniumClassList;
+  style: CarboniumStyleList;
 }
 
 interface CarboniumClassList extends DOMTokenList {
@@ -157,5 +183,14 @@ interface CarboniumClassList extends DOMTokenList {
   forEach(
     callbackfn: (value: string, key: number, parent: DOMTokenList) => void,
     thisArg?: any
+  ): CarboniumList;
+}
+
+interface CarboniumStyleList extends CSSStyleDeclaration {
+  removeProperty(property: string): CarboniumList & string;
+  setProperty(
+    property: string,
+    value: string | null,
+    priority?: string
   ): CarboniumList;
 }

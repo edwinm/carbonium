@@ -78,6 +78,17 @@ describe("$", () => {
     assert.equal(divs[5].textContent, "item5");
   });
 
+  it("filter and style setProperty method and textContent property", () => {
+    $("div")
+      .filter((el) => el.textContent == "item0")
+      .style.setProperty("--leftmargin", "10px").textContent = "hello";
+    const divs = document.getElementsByTagName("div");
+    assert.equal(divs[0].style.getPropertyValue("--leftmargin"), "10px");
+    assert.equal(divs[5].style.getPropertyValue("--leftmargin"), "");
+    assert.equal(divs[0].textContent, "hello");
+    assert.equal(divs[5].textContent, "item5");
+  });
+
   it("combined", () => {
     $("div")
       .forEach((el) => (el.title = `A div with content ${el.textContent}`))
