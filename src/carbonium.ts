@@ -92,28 +92,28 @@ const proxyHandler: ProxyHandler<NodeListOf<HTMLElement>> = {
       }
     }
 
+    let propValue = null;
     // Get property or call function on DOM elements
     if (target.length > 0) {
       // Might be DOM element specific, like input.select(),
       // so use first array element to get reference
       if (prop in target[0]) {
-        const propValue = Reflect.get(target[0], prop);
-        if (typeof propValue == "function") {
-          return new Proxy(propValue, proxyDOMFunctionHandler);
-        } else {
-          return propValue;
-        }
+        propValue = Reflect.get(target[0], prop);
       }
     } else {
       // Empty list, targeted DOM element unknown,
       // use document.body
       if (prop in document.body) {
-        const propValue = Reflect.get(document.body, prop);
-        if (typeof propValue == "function") {
-          return new Proxy(propValue, proxyDOMFunctionHandler);
-        } else {
-          return propValue;
-        }
+        propValue = Reflect.get(document.body, prop);
+      }
+    }
+
+    // Propagate DOM prop value
+    if (propValue) {
+      if (typeof propValue == "function") {
+        return new Proxy(propValue, proxyDOMFunctionHandler);
+      } else {
+        return propValue;
       }
     }
 
