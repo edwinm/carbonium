@@ -18,6 +18,8 @@ let currentListNodelist: NodeListOf<HTMLElement>;
 
 const proxyHandler: ProxyHandler<NodeListOf<HTMLElement>> = {
   get(target, prop) {
+    let propValue = null;
+
     // Return iterator when asked for iterator
     if (prop == Symbol.iterator) {
       return function* () {
@@ -34,33 +36,27 @@ const proxyHandler: ProxyHandler<NodeListOf<HTMLElement>> = {
       return new Proxy(propValue, proxyHandler);
     }
 
-    // classList.add, contains, remove…
-    if (target instanceof CSSStyleDeclaration) {
-      const propValue = Reflect.get(document.body.style, prop);
+    let property: string = null;
 
-      if (typeof propValue == "function") {
-        return new Proxy<Function>(propValue, {
-          apply: function (target, thisArg, argumentsList) {
-            currentListNodelist.forEach((el) => {
-              Reflect.apply(target, el.style, argumentsList);
-            });
-            return new Proxy(currentListNodelist, proxyHandler);
-          },
-        });
-      } else {
-        return propValue;
-      }
+    // style.setProperty, getProperyValue…
+    if (target instanceof CSSStyleDeclaration) {
+      propValue = Reflect.get(document.body.style, prop);
+      property = "style";
     }
 
     // classList.add, contains, remove…
     if (target instanceof DOMTokenList) {
-      const propValue = Reflect.get(document.body.classList, prop);
+      propValue = Reflect.get(document.body.classList, prop);
+      property = "classList";
+    }
 
+    // Call style and classList functions
+    if (property) {
       if (typeof propValue == "function") {
         return new Proxy<Function>(propValue, {
           apply: function (target, thisArg, argumentsList) {
             currentListNodelist.forEach((el) => {
-              Reflect.apply(target, el.classList, argumentsList);
+              Reflect.apply(target, el[property], argumentsList);
             });
             return new Proxy(currentListNodelist, proxyHandler);
           },
@@ -85,7 +81,6 @@ const proxyHandler: ProxyHandler<NodeListOf<HTMLElement>> = {
       }
     }
 
-    let propValue = null;
     // Get property or call function on DOM elements
     if (target.length > 0) {
       // Might be DOM element specific, like input.select(),

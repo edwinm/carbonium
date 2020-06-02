@@ -20,6 +20,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="89a9b866-c216-4633-90e5-b83d572efe3f" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/carbonium.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/carbonium.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -99,7 +101,7 @@
       <workItem from="1591020916215" duration="626000" />
       <workItem from="1591028485955" duration="1484000" />
       <workItem from="1591047153933" duration="1277000" />
-      <workItem from="1591082211813" duration="5698000" />
+      <workItem from="1591082211813" duration="6192000" />
     </task>
     <servers />
   </component>
