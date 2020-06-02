@@ -1,5 +1,5 @@
 import * as assert from "assert";
-import { $ } from "../src/carbonium";
+import { $, CarboniumType } from "../src/carbonium";
 
 /**
  * Test framework used:
@@ -19,6 +19,13 @@ describe("$", () => {
 
   it("textContent one element", () => {
     $("div:first-child").textContent = "hello";
+    const divs = document.getElementsByTagName("div");
+    assert.equal(divs[0].textContent, "hello");
+  });
+
+  it("textContent one element", () => {
+    const div: CarboniumType = $("div:first-child");
+    div.textContent = "hello";
     const divs = document.getElementsByTagName("div");
     assert.equal(divs[0].textContent, "hello");
   });

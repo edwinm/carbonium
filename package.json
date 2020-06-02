@@ -1,6 +1,6 @@
 {
   "name": "carbonium",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Carbonium, for easy manipulation of the DOM",
   "main": "dist/bundle.common.min.js",
   "module": "dist/bundle.min.js",
@@ -17,6 +17,13 @@
     "type": "git",
     "url": "git+https://github.com/edwinm/carbonium.git"
   },
+  "files": [
+    "src/carbonium.ts",
+    "dist/bundle.min.js",
+    "dist/bundle.min.js.map",
+    "dist/bundle.common.min.js",
+    "dist/bundle.common.min.js.map"
+  ],
   "author": {
     "name": "Edwin Martin",
     "email": "edwin@bitstorm.org",

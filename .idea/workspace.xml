@@ -20,9 +20,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="89a9b866-c216-4633-90e5-b83d572efe3f" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/bundle.common.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/dist/bundle.common.min.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/bundle.common.min.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/dist/bundle.common.min.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/bundle.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/dist/bundle.min.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/bundle.min.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/dist/bundle.min.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/carbonium.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/dist/carbonium.d.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/carbonium.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/carbonium.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/test.ts" beforeDir="false" afterPath="$PROJECT_DIR$/test/test.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -118,6 +123,7 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
     <state x="255" y="314" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1590613461361">

@@ -5,18 +5,18 @@
  */
 
 export function $(arg: string, doc?: Document): CarboniumList {
-  const nodelist: NodeListOf<HTMLElement> = (doc || document).querySelectorAll(
+  const nodelist: NodeListOf<AllElements> = (doc || document).querySelectorAll(
     arg
   );
   return <CarboniumList>(
-    (<any>new Proxy<NodeListOf<HTMLElement>>(nodelist, proxyHandler))
+    (<any>new Proxy<NodeListOf<AllElements>>(nodelist, proxyHandler))
   );
 }
 
 // Used by classList
-let currentListNodelist: NodeListOf<HTMLElement>;
+let currentListNodelist: NodeListOf<AllElements>;
 
-const proxyHandler: ProxyHandler<NodeListOf<HTMLElement>> = {
+const proxyHandler: ProxyHandler<NodeListOf<AllElements>> = {
   get(target, prop) {
     let propValue = null;
 
@@ -126,14 +126,16 @@ const proxyHandler: ProxyHandler<NodeListOf<HTMLElement>> = {
   },
 };
 
-// TODO: Replace HTMLInputElement with union of all possible elements
-type CarboniumType = HTMLInputElement & Array<HTMLElement>;
+// TODO: set AllElements to union of all possible elements
+type AllElements = HTMLInputElement & HTMLCanvasElement;
+
+export type CarboniumType = AllElements & Array<AllElements>;
 
 // TODO: Needs more finetuning
 interface CarboniumList extends CarboniumType {
-  concat(...items: ConcatArray<HTMLElement>[]): CarboniumList;
+  concat(...items: ConcatArray<AllElements>[]): CarboniumList;
 
-  concat(...items: (HTMLElement | ConcatArray<HTMLElement>)[]): CarboniumList;
+  concat(...items: (AllElements | ConcatArray<AllElements>)[]): CarboniumList;
 
   reverse(): CarboniumList;
 
@@ -144,23 +146,23 @@ interface CarboniumList extends CarboniumType {
   splice(
     start: number,
     deleteCount: number,
-    ...items: HTMLElement[]
+    ...items: AllElements[]
   ): CarboniumList;
 
   forEach(
     callbackfn: (
-      value: HTMLElement,
+      value: AllElements,
       index: number,
-      array: HTMLElement[]
+      array: AllElements[]
     ) => void,
     thisArg?: any
   ): CarboniumList;
 
   filter(
     callbackfn: (
-      value: HTMLElement,
+      value: AllElements,
       index: number,
-      array: HTMLElement[]
+      array: AllElements[]
     ) => boolean,
     thisArg?: any
   ): CarboniumList;
