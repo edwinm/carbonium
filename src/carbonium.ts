@@ -27,8 +27,8 @@ const proxyHandler: ProxyHandler<NodeListOf<HTMLElement>> = {
       };
     }
 
-    // Special case for style
-    if (prop == "style") {
+    // Special case for style and classList
+    if (prop == "style" || prop == "classList") {
       currentListNodelist = target;
       const propValue = Reflect.get(document.body, prop);
       return new Proxy(propValue, proxyHandler);
@@ -50,13 +50,6 @@ const proxyHandler: ProxyHandler<NodeListOf<HTMLElement>> = {
       } else {
         return propValue;
       }
-    }
-
-    // Special case for classList
-    if (prop == "classList") {
-      currentListNodelist = target;
-      const propValue = Reflect.get(document.body, prop);
-      return new Proxy(propValue, proxyHandler);
     }
 
     // classList.add, contains, remove…
@@ -111,7 +104,15 @@ const proxyHandler: ProxyHandler<NodeListOf<HTMLElement>> = {
     // Propagate DOM prop value
     if (propValue) {
       if (typeof propValue == "function") {
-        return new Proxy(propValue, proxyDOMFunctionHandler);
+        return new Proxy<Function>(propValue, {
+          apply: function (target, thisArg, argumentsList) {
+            // Apply on individual elements
+            for (const el of thisArg) {
+              Reflect.apply(target, el, argumentsList);
+            }
+            return thisArg;
+          },
+        });
       } else {
         return propValue;
       }
@@ -130,31 +131,27 @@ const proxyHandler: ProxyHandler<NodeListOf<HTMLElement>> = {
   },
 };
 
-const proxyDOMFunctionHandler: ProxyHandler<Function> = {
-  apply: function (target, thisArg, argumentsList) {
-    // Apply on individual elements
-    for (const el of thisArg) {
-      Reflect.apply(target, el, argumentsList);
-    }
-    return thisArg;
-  },
-};
-
 // TODO: Replace HTMLInputElement with union of all possible elements
 type CarboniumType = HTMLInputElement & Array<HTMLElement>;
 
 // TODO: Needs more finetuning
 interface CarboniumList extends CarboniumType {
   concat(...items: ConcatArray<HTMLElement>[]): CarboniumList;
+
   concat(...items: (HTMLElement | ConcatArray<HTMLElement>)[]): CarboniumList;
+
   reverse(): CarboniumList;
+
   slice(start?: number, end?: number): CarboniumList;
+
   splice(start: number, deleteCount?: number): CarboniumList;
+
   splice(
     start: number,
     deleteCount: number,
     ...items: HTMLElement[]
   ): CarboniumList;
+
   forEach(
     callbackfn: (
       value: HTMLElement,
@@ -163,6 +160,7 @@ interface CarboniumList extends CarboniumType {
     ) => void,
     thisArg?: any
   ): CarboniumList;
+
   filter(
     callbackfn: (
       value: HTMLElement,
@@ -171,15 +169,20 @@ interface CarboniumList extends CarboniumType {
     ) => boolean,
     thisArg?: any
   ): CarboniumList;
+
   setAttribute(qualifiedName: string, value: string): CarboniumList;
+
   classList: CarboniumClassList;
   style: CarboniumStyleList;
 }
 
 interface CarboniumClassList extends DOMTokenList {
   add(...tokens: string[]): CarboniumList;
+
   remove(...tokens: string[]): CarboniumList;
+
   replace(oldToken: string, newToken: string): CarboniumList;
+
   forEach(
     callbackfn: (value: string, key: number, parent: DOMTokenList) => void,
     thisArg?: any
@@ -188,6 +191,7 @@ interface CarboniumClassList extends DOMTokenList {
 
 interface CarboniumStyleList extends CSSStyleDeclaration {
   removeProperty(property: string): CarboniumList & string;
+
   setProperty(
     property: string,
     value: string | null,
