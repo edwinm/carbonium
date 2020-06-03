@@ -1,6 +1,6 @@
 {
   "name": "carbonium",
-  "version": "0.1.2",
+  "version": "0.1.4",
   "description": "Carbonium, for easy manipulation of the DOM",
   "main": "dist/bundle.common.min.js",
   "module": "dist/bundle.min.js",

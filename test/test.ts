@@ -135,4 +135,15 @@ describe("$", () => {
     });
     $("div:first-child").click();
   });
+
+  it("canvas", () => {
+    const canvas = document.createElement("canvas");
+    $("div:nth-child(1)").appendChild(canvas);
+    const ctx = $("canvas").getContext("2d", { alpha: false });
+    ctx.fillRect(0, 0, 100, 100);
+  });
+
+  it("style set", () => {
+    $("div:nth-child(1)").style.color = "red";
+  });
 });

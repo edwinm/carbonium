@@ -4,7 +4,10 @@
  @license MIT
  */
 
-export function $(arg: string, doc?: Document): CarboniumList {
+export function $(
+  arg: string,
+  doc?: Document | ShadowRoot | HTMLElement
+): CarboniumList {
   const nodelist: NodeListOf<AllElements> = (doc || document).querySelectorAll(
     arg
   );
@@ -101,11 +104,19 @@ const proxyHandler: ProxyHandler<NodeListOf<AllElements>> = {
       if (typeof propValue == "function") {
         return new Proxy<Function>(propValue, {
           apply: function (target, thisArg, argumentsList) {
+            let retFirst = null;
+            let first = true;
             // Apply on individual elements
             for (const el of thisArg) {
-              Reflect.apply(target, el, argumentsList);
+              const ret = Reflect.apply(target, el, argumentsList);
+              if (first) {
+                retFirst = ret;
+                first = false;
+              }
             }
-            return thisArg;
+            return retFirst != null && retFirst != undefined
+              ? retFirst
+              : thisArg;
           },
         });
       } else {
@@ -119,9 +130,13 @@ const proxyHandler: ProxyHandler<NodeListOf<AllElements>> = {
 
   // DOM property is set
   set(target, prop, value) {
-    target.forEach((el) => {
-      Reflect.set(el, prop, value);
-    });
+    if ("forEach" in target) {
+      target.forEach((el) => {
+        Reflect.set(el, prop, value);
+      });
+    } else {
+      Reflect.set(target, prop, value);
+    }
     return true;
   },
 };

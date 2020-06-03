@@ -3,7 +3,7 @@
  @copyright 2020 Edwin Martin
  @license MIT
  */
-export declare function $(arg: string, doc?: Document): CarboniumList;
+export declare function $(arg: string, doc?: Document | ShadowRoot | HTMLElement): CarboniumList;
 declare type AllElements = HTMLInputElement & HTMLCanvasElement;
 export declare type CarboniumType = AllElements & Array<AllElements>;
 interface CarboniumList extends CarboniumType {
