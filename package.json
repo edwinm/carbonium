@@ -19,6 +19,7 @@
   },
   "files": [
     "src/carbonium.ts",
+    "dist/carbonium.d.ts",
     "dist/bundle.min.js",
     "dist/bundle.min.js.map",
     "dist/bundle.common.min.js",
