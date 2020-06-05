@@ -125,7 +125,7 @@ describe("$", () => {
     const input = document.createElement("input");
     document.querySelector("div:first-child").appendChild(input);
     assert.doesNotThrow(() => {
-      $("input").select();
+      $<HTMLInputElement>("input").select();
     });
   });
 
@@ -139,7 +139,9 @@ describe("$", () => {
   it("canvas", () => {
     const canvas = document.createElement("canvas");
     $("div:nth-child(1)").appendChild(canvas);
-    const ctx = $("canvas").getContext("2d", { alpha: false });
+    const ctx = $<HTMLCanvasElement>("canvas").getContext("2d", {
+      alpha: false,
+    });
     ctx.fillRect(0, 0, 100, 100);
   });
 

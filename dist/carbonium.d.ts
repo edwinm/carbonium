@@ -1,32 +1,31 @@
 /**!
- @preserve Carbonium 0.1.5
+ @preserve Carbonium 0.1.6
  @copyright 2020 Edwin Martin
  @license MIT
  */
-export declare function $(arg: string, doc?: Document | ShadowRoot | HTMLElement): CarboniumList;
-declare type AllElements = HTMLInputElement & HTMLCanvasElement;
-export declare type CarboniumType = AllElements & Array<AllElements>;
-interface CarboniumList extends CarboniumType {
-    concat(...items: ConcatArray<AllElements>[]): CarboniumList;
-    concat(...items: (AllElements | ConcatArray<AllElements>)[]): CarboniumList;
-    reverse(): CarboniumList;
-    slice(start?: number, end?: number): CarboniumList;
-    splice(start: number, deleteCount?: number): CarboniumList;
-    splice(start: number, deleteCount: number, ...items: AllElements[]): CarboniumList;
-    forEach(callbackfn: (value: AllElements, index: number, array: AllElements[]) => void, thisArg?: any): CarboniumList;
-    filter(callbackfn: (value: AllElements, index: number, array: AllElements[]) => boolean, thisArg?: any): CarboniumList;
-    setAttribute(qualifiedName: string, value: string): CarboniumList;
-    classList: CarboniumClassList;
-    style: CarboniumStyleList;
+export declare function $<T extends HTMLElement = HTMLElement>(selectors: string, parentNode?: Document | ShadowRoot | HTMLElement): CarboniumType<T>;
+export declare type CarboniumType<T extends HTMLElement = HTMLElement> = CarboniumList<T> & T;
+interface CarboniumList<T extends HTMLElement> extends Array<T> {
+    concat(...items: ConcatArray<T>[]): CarboniumType<T>;
+    concat(...items: (T | ConcatArray<T>)[]): CarboniumType<T>;
+    reverse(): CarboniumType<T>;
+    slice(start?: number, end?: number): CarboniumType<T>;
+    splice(start: number, deleteCount?: number): CarboniumType<T>;
+    splice(start: number, deleteCount: number, ...items: T[]): CarboniumType<T>;
+    forEach(callbackfn: (value: T, index: number, array: T[]) => void, thisArg?: any): CarboniumType<T>;
+    filter(callbackfn: (value: T, index: number, array: T[]) => boolean, thisArg?: any): CarboniumType<T>;
+    setAttribute(qualifiedName: string, value: string): CarboniumType<T>;
+    classList: CarboniumClassList<T>;
+    style: CarboniumStyleList<T>;
 }
-interface CarboniumClassList extends DOMTokenList {
-    add(...tokens: string[]): CarboniumList;
-    remove(...tokens: string[]): CarboniumList;
-    replace(oldToken: string, newToken: string): CarboniumList;
-    forEach(callbackfn: (value: string, key: number, parent: DOMTokenList) => void, thisArg?: any): CarboniumList;
+interface CarboniumClassList<T extends HTMLElement> extends DOMTokenList {
+    add(...tokens: string[]): CarboniumType<T>;
+    remove(...tokens: string[]): CarboniumType<T>;
+    replace(oldToken: string, newToken: string): CarboniumType<T>;
+    forEach(callbackfn: (value: string, key: number, parent: DOMTokenList) => void, thisArg?: any): CarboniumType<T>;
 }
-interface CarboniumStyleList extends CSSStyleDeclaration {
-    removeProperty(property: string): CarboniumList & string;
-    setProperty(property: string, value: string | null, priority?: string): CarboniumList;
+interface CarboniumStyleList<T extends HTMLElement> extends CSSStyleDeclaration {
+    removeProperty(property: string): CarboniumList<T> & string;
+    setProperty(property: string, value: string | null, priority?: string): CarboniumType<T>;
 }
 export {};

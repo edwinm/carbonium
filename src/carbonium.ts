@@ -1,25 +1,25 @@
 /**!
- @preserve Carbonium 0.1.5
+ @preserve Carbonium 0.1.6
  @copyright 2020 Edwin Martin
  @license MIT
  */
 
-export function $(
-  arg: string,
-  doc?: Document | ShadowRoot | HTMLElement
-): CarboniumList {
-  const nodelist: NodeListOf<AllElements> = (doc || document).querySelectorAll(
-    arg
+export function $<T extends HTMLElement = HTMLElement>(
+  selectors: string,
+  parentNode?: Document | ShadowRoot | HTMLElement
+): CarboniumType<T> {
+  const nodelist: NodeListOf<T> = (parentNode || document).querySelectorAll(
+    selectors
   );
-  return <CarboniumList>(
-    (<unknown>new Proxy<NodeListOf<AllElements>>(nodelist, proxyHandler))
+  return <CarboniumType<T>>(
+    (<unknown>new Proxy<NodeListOf<T>>(nodelist, proxyHandler))
   );
 }
 
-// Used by classList
-let currentListNodelist: NodeListOf<AllElements>;
+// Used by classList and style
+let currentListNodelist: NodeListOf<HTMLElement>;
 
-const proxyHandler: ProxyHandler<NodeListOf<AllElements>> = {
+const proxyHandler: ProxyHandler<NodeListOf<HTMLElement>> = {
   get(target, prop) {
     let propValue = null;
 
@@ -41,7 +41,7 @@ const proxyHandler: ProxyHandler<NodeListOf<AllElements>> = {
 
     let property: string = null;
 
-    // style.setProperty, getProperyValue…
+    // style.setProperty, getPropertyValue…
     if (target instanceof CSSStyleDeclaration) {
       propValue = Reflect.get(document.body.style, prop);
       property = "style";
@@ -141,72 +141,60 @@ const proxyHandler: ProxyHandler<NodeListOf<AllElements>> = {
   },
 };
 
-// TODO: set AllElements to union of all possible elements
-type AllElements = HTMLInputElement & HTMLCanvasElement;
+export type CarboniumType<T extends HTMLElement = HTMLElement> = CarboniumList<
+  T
+> &
+  T;
 
-export type CarboniumType = AllElements & Array<AllElements>;
+interface CarboniumList<T extends HTMLElement> extends Array<T> {
+  concat(...items: ConcatArray<T>[]): CarboniumType<T>;
 
-// TODO: Needs more finetuning
-interface CarboniumList extends CarboniumType {
-  concat(...items: ConcatArray<AllElements>[]): CarboniumList;
+  concat(...items: (T | ConcatArray<T>)[]): CarboniumType<T>;
 
-  concat(...items: (AllElements | ConcatArray<AllElements>)[]): CarboniumList;
+  reverse(): CarboniumType<T>;
 
-  reverse(): CarboniumList;
+  slice(start?: number, end?: number): CarboniumType<T>;
 
-  slice(start?: number, end?: number): CarboniumList;
+  splice(start: number, deleteCount?: number): CarboniumType<T>;
 
-  splice(start: number, deleteCount?: number): CarboniumList;
-
-  splice(
-    start: number,
-    deleteCount: number,
-    ...items: AllElements[]
-  ): CarboniumList;
+  splice(start: number, deleteCount: number, ...items: T[]): CarboniumType<T>;
 
   forEach(
-    callbackfn: (
-      value: AllElements,
-      index: number,
-      array: AllElements[]
-    ) => void,
+    callbackfn: (value: T, index: number, array: T[]) => void,
     thisArg?: any
-  ): CarboniumList;
+  ): CarboniumType<T>;
 
   filter(
-    callbackfn: (
-      value: AllElements,
-      index: number,
-      array: AllElements[]
-    ) => boolean,
+    callbackfn: (value: T, index: number, array: T[]) => boolean,
     thisArg?: any
-  ): CarboniumList;
+  ): CarboniumType<T>;
 
-  setAttribute(qualifiedName: string, value: string): CarboniumList;
+  setAttribute(qualifiedName: string, value: string): CarboniumType<T>;
 
-  classList: CarboniumClassList;
-  style: CarboniumStyleList;
+  classList: CarboniumClassList<T>;
+  style: CarboniumStyleList<T>;
 }
 
-interface CarboniumClassList extends DOMTokenList {
-  add(...tokens: string[]): CarboniumList;
+interface CarboniumClassList<T extends HTMLElement> extends DOMTokenList {
+  add(...tokens: string[]): CarboniumType<T>;
 
-  remove(...tokens: string[]): CarboniumList;
+  remove(...tokens: string[]): CarboniumType<T>;
 
-  replace(oldToken: string, newToken: string): CarboniumList;
+  replace(oldToken: string, newToken: string): CarboniumType<T>;
 
   forEach(
     callbackfn: (value: string, key: number, parent: DOMTokenList) => void,
     thisArg?: any
-  ): CarboniumList;
+  ): CarboniumType<T>;
 }
 
-interface CarboniumStyleList extends CSSStyleDeclaration {
-  removeProperty(property: string): CarboniumList & string;
+interface CarboniumStyleList<T extends HTMLElement>
+  extends CSSStyleDeclaration {
+  removeProperty(property: string): CarboniumList<T> & string;
 
   setProperty(
     property: string,
     value: string | null,
     priority?: string
-  ): CarboniumList;
+  ): CarboniumType<T>;
 }
