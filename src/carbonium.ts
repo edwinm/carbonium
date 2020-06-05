@@ -12,7 +12,7 @@ export function $(
     arg
   );
   return <CarboniumList>(
-    (<any>new Proxy<NodeListOf<AllElements>>(nodelist, proxyHandler))
+    (<unknown>new Proxy<NodeListOf<AllElements>>(nodelist, proxyHandler))
   );
 }
 
