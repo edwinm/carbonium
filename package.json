@@ -10,6 +10,7 @@
     "start": "http-server -o demo/ --silent",
     "build": "rollup --config --sourcemap",
     "dev": "rollup --config --sourcemap --watch",
+    "release": "npm i --package-lock && npm run lint && npm test && npm run build && npm publish",
     "test": "karma start",
     "lint": "npx eslint . --ext .js,.ts"
   },
