@@ -18,9 +18,6 @@
     "type": "git",
     "url": "git+https://github.com/edwinm/carbonium.git"
   },
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com/"
-  },
   "files": [
     "src/carbonium.ts",
     "dist/carbonium.d.ts",
