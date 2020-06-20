@@ -14,7 +14,8 @@ module.exports = function (config) {
     singleRun: true,
     concurrency: Infinity,
     coverageReporter: {
-      type: "lcovonly",
+      reporters: [{ type: "lcov", subdir: "." }],
+      dir: "coverage/",
     },
   });
 };
