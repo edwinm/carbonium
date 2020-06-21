@@ -18,6 +18,7 @@ export function $<T extends HTMLElement = HTMLElement>(
 
 // Used by classList and style
 let currentListNodelist: NodeListOf<HTMLElement>;
+let propList: string;
 
 const proxyHandler: ProxyHandler<NodeListOf<HTMLElement>> = {
   get(target, prop) {
@@ -32,34 +33,26 @@ const proxyHandler: ProxyHandler<NodeListOf<HTMLElement>> = {
       };
     }
 
-    // Special case for style and classList
-    if (prop == "style" || prop == "classList") {
+    // Special case for style, classList and relList
+    if (prop == "style" || prop == "classList" || prop == "relList") {
       currentListNodelist = target;
+      propList = prop;
       const propValue = Reflect.get(document.body, prop);
       return new Proxy(propValue, proxyHandler);
     }
 
-    let property: string = null;
+    // style.setProperty, getPropertyValue…, classList.add, contains, remove…, relList…
+    if (
+      target instanceof CSSStyleDeclaration ||
+      target instanceof DOMTokenList
+    ) {
+      propValue = Reflect.get(document.body[propList], prop);
 
-    // style.setProperty, getPropertyValue…
-    if (target instanceof CSSStyleDeclaration) {
-      propValue = Reflect.get(document.body.style, prop);
-      property = "style";
-    }
-
-    // classList.add, contains, remove…
-    if (target instanceof DOMTokenList) {
-      propValue = Reflect.get(document.body.classList, prop);
-      property = "classList";
-    }
-
-    // Call style and classList functions
-    if (property) {
       if (typeof propValue == "function") {
         return new Proxy<Function>(propValue, {
           apply: function (target, thisArg, argumentsList) {
             currentListNodelist.forEach((el) => {
-              Reflect.apply(target, el[property], argumentsList);
+              Reflect.apply(target, el[propList], argumentsList);
             });
             return new Proxy(currentListNodelist, proxyHandler);
           },

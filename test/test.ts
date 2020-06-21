@@ -59,6 +59,12 @@ describe("$", () => {
     assert.ok(divs[5].classList.contains("some-class"));
   });
 
+  it("rel add and contains method", () => {
+    const a = document.createElement("a");
+    a.relList.add("some-class");
+    assert.ok(a.relList.contains("some-class"));
+  });
+
   it("class value property", () => {
     $("div").classList.add("some-class");
     const divs = document.getElementsByTagName("div");
