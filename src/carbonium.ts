@@ -157,6 +157,7 @@ interface CarboniumList<T extends HTMLElement> extends Array<T> {
 
   splice(start: number, deleteCount?: number): CarboniumType<T>;
 
+  /* tslint:disable:unified-signatures */
   splice(start: number, deleteCount: number, ...items: T[]): CarboniumType<T>;
 
   forEach(
