@@ -39,6 +39,25 @@ describe("$", () => {
     assert.equal($("div").length, 6);
   });
 
+  it("forEach", () => {
+    const divs = $("div");
+    divs.forEach((div, i) => {
+      div.textContent = `div ${i}`;
+    });
+    assert.equal(divs[0].textContent, "div 0");
+    assert.equal(divs[5].textContent, "div 5");
+  });
+
+  it("for of", () => {
+    const divs = $("div");
+    let i = 0;
+    for (const div of divs) {
+      div.textContent = `div ${i++}`;
+    }
+    assert.equal(divs[0].textContent, "div 0");
+    assert.equal(divs[5].textContent, "div 5");
+  });
+
   it("setAttribute all elements", () => {
     $("div").setAttribute("aria-label", "List item");
     const divs = document.getElementsByTagName("div");
@@ -151,7 +170,8 @@ describe("$", () => {
     ctx.fillRect(0, 0, 100, 100);
   });
 
-  it("style set", () => {
+  it("style set/get", () => {
     $("div:nth-child(1)").style.color = "red";
+    assert.equal($("div:nth-child(1)").style.color, "red");
   });
 });

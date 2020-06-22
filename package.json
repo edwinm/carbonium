@@ -1,6 +1,6 @@
 {
   "name": "carbonium",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "Carbonium, for easy manipulation of the DOM",
   "main": "dist/bundle.common.min.js",
   "module": "dist/bundle.min.js",
@@ -11,7 +11,7 @@
     "build": "rollup --config --sourcemap",
     "dev": "rollup --config --sourcemap --watch",
     "release": "npm i --package-lock && npm run lint && npm test && npm run build && npm publish",
-    "test": "karma start",
+    "test": "karma start --browsers ChromeHeadless,FirefoxHeadless",
     "lint": "npx eslint . --ext .js,.ts"
   },
   "repository": {
@@ -50,6 +50,7 @@
     "karma-chai": "^0.1.0",
     "karma-chrome-launcher": "^3.1.0",
     "karma-coverage": "^2.0.2",
+    "karma-firefox-launcher": "^1.3.0",
     "karma-mocha": "^2.0.1",
     "karma-typescript": "^5.0.3",
     "mocha": "^7.2.0",
