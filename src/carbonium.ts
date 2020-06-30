@@ -24,15 +24,14 @@ const proxyHandler: ProxyHandler<NodeListOf<HTMLElement>> = {
   get(target, prop) {
     let propValue = null;
 
-    // Sure we don't need this?
     // Return iterator when asked for iterator
-    // if (prop == Symbol.iterator) {
-    //   return function* () {
-    //     for (let i = 0; i < target.length; i++) {
-    //       yield target[i];
-    //     }
-    //   };
-    // }
+    if (prop == Symbol.iterator) {
+      return function* () {
+        for (let i = 0; i < target.length; i++) {
+          yield target[i];
+        }
+      };
+    }
 
     // Special case for style, classList and relList
     if (prop == "style" || prop == "classList" || prop == "relList") {
@@ -95,21 +94,27 @@ const proxyHandler: ProxyHandler<NodeListOf<HTMLElement>> = {
 
     // Propagate DOM prop value
     if (propValue) {
-      return new Proxy<Function>(propValue, {
-        apply: function (target, thisArg, argumentsList) {
-          let retFirst = null;
-          let first = true;
-          // Apply on individual elements
-          for (const el of thisArg) {
-            const ret = Reflect.apply(target, el, argumentsList);
-            if (first) {
-              retFirst = ret;
-              first = false;
+      if (typeof propValue == "function") {
+        return new Proxy<Function>(propValue, {
+          apply: function (target, thisArg, argumentsList) {
+            let retFirst = null;
+            let first = true;
+            // Apply on individual elements
+            for (const el of thisArg) {
+              const ret = Reflect.apply(target, el, argumentsList);
+              if (first) {
+                retFirst = ret;
+                first = false;
+              }
             }
-          }
-          return retFirst != null && retFirst != undefined ? retFirst : thisArg;
-        },
-      });
+            return retFirst != null && retFirst != undefined
+              ? retFirst
+              : thisArg;
+          },
+        });
+      } else {
+        return propValue;
+      }
     }
 
     // Default
