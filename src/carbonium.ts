@@ -1,5 +1,5 @@
 /**
- Carbonium 0.1.6
+ Carbonium 0.1.7
  @copyright 2020 Edwin Martin
  @license MIT
  */
@@ -8,9 +8,17 @@ export function $<T extends HTMLElement = HTMLElement>(
   selectors: string,
   parentNode?: Document | ShadowRoot | HTMLElement
 ): CarboniumType<T> {
-  const nodelist: NodeListOf<T> = (parentNode || document).querySelectorAll(
-    selectors
-  );
+  let nodelist: NodeListOf<T>;
+
+  if (selectors[0] == "<") {
+    nodelist = <NodeListOf<T>>(
+      (<unknown>[
+        new DOMParser().parseFromString(selectors, "text/html").body.firstChild,
+      ])
+    );
+  } else {
+    nodelist = (parentNode || document).querySelectorAll(selectors);
+  }
   return <CarboniumType<T>>(
     (<unknown>new Proxy<NodeListOf<T>>(nodelist, proxyHandler))
   );

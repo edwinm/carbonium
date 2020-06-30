@@ -174,4 +174,12 @@ describe("$", () => {
     $("div:nth-child(1)").style.color = "red";
     assert.equal($("div:nth-child(1)").style.color, "red");
   });
+
+  it("Parse HTML", () => {
+    const div$ = $("<div class='a1'>b1</div>");
+    assert.ok(div$.classList.contains("a1"));
+    $("div:first-child").appendChild(div$[0]);
+    assert.equal($(".a1").length, 1);
+    assert.equal($(".a1").textContent, "b1");
+  });
 });
