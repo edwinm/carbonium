@@ -1,5 +1,5 @@
-/**!
- @preserve Carbonium 0.1.6
+/**
+ Carbonium 0.1.6
  @copyright 2020 Edwin Martin
  @license MIT
  */
