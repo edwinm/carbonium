@@ -183,6 +183,15 @@ describe("$", () => {
     assert.equal($(".a1").length, 1);
     assert.equal($(".a1").textContent, "b1");
   });
+
+  it("Set", () => {
+    const set = new Set(["1a", "2a", "3a"]);
+    let result = "";
+    set.forEach((item) => {
+      result += `[${item}]`;
+    });
+    assert.equal(result, "[1a][2a][3a]");
+  });
   it("Custom Element", () => {
     class GolInfo extends HTMLElement {
       connectedCallback() {
