@@ -9,3 +9,5 @@ demo
 # don't lint configuration files
 .eslintrc.js
 karma.conf.js
+# don't lint iterator test
+iteratortest
