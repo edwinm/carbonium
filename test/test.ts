@@ -1,5 +1,6 @@
 import * as assert from "assert";
 import { $, CarboniumType } from "../src/carbonium";
+import "@webcomponents/webcomponentsjs/custom-elements-es5-adapter";
 
 /**
  * Test framework used:
@@ -181,5 +182,23 @@ describe("$", () => {
     $("div:first-child").appendChild(div$[0]);
     assert.equal($(".a1").length, 1);
     assert.equal($(".a1").textContent, "b1");
+  });
+  it("Custom Element", () => {
+    class GolInfo extends HTMLElement {
+      connectedCallback() {
+        console.log("connectedCallback()");
+
+        $("nnn").addEventListener("click", () => {
+          console.log('click');
+        });
+
+        console.log("connectedCallback() end");
+      }
+    }
+    customElements.define("gol-info", GolInfo);
+
+    const i = document.createElement("gol-info");
+    // const i = new GolInfo();
+    document.body.appendChild(i);
   });
 });
