@@ -1,5 +1,7 @@
 import typescript from "rollup-plugin-typescript2";
 import { terser } from "rollup-plugin-terser";
+import replace from "@rollup/plugin-replace";
+import pkg from "./package.json";
 
 export default {
   input: "src/carbonium.ts",
@@ -18,6 +20,9 @@ export default {
     },
   ],
   plugins: [
+    replace({
+      __buildVersion__: pkg.version,
+    }),
     typescript({
       clean: true,
     }),
