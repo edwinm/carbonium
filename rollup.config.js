@@ -13,9 +13,9 @@ export default {
       sourcemap: true,
     },
     {
-      file: "dist/bundle.common.min.js",
-      format: "cjs",
-      name: "bundle",
+      file: "dist/bundle.iife.min.js",
+      format: "iife",
+      name: "carbonium",
       sourcemap: true,
     },
   ],

@@ -1,9 +1,9 @@
-import { $ } from "../src/carbonium.js";
 document.addEventListener("DOMContentLoaded", (event) => {
   class GolInfo extends HTMLElement {
     connectedCallback() {
       console.log("connectedCallback()");
-      $("nnn").addEventListener("click", () => {});
+      // TODO: why carbonium.$ and not $? 😠
+      carbonium.$("nnn").addEventListener("click", () => {});
       console.log("connectedCallback() end");
     }
   }

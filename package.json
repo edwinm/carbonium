@@ -2,7 +2,7 @@
   "name": "carbonium",
   "version": "0.1.7",
   "description": "Carbonium, for easy manipulation of the DOM",
-  "main": "dist/bundle.common.min.js",
+  "main": "dist/bundle.iife.min.js",
   "module": "dist/bundle.min.js",
   "types": "dist/carbonium.d.ts",
   "sideEffects": false,
@@ -23,8 +23,8 @@
     "dist/carbonium.d.ts",
     "dist/bundle.min.js",
     "dist/bundle.min.js.map",
-    "dist/bundle.common.min.js",
-    "dist/bundle.common.min.js.map"
+    "dist/bundle.iife.min.js",
+    "dist/bundle.iife.min.js.map"
   ],
   "author": {
     "name": "Edwin Martin",

@@ -3,45 +3,32 @@
  @copyright 2020 Edwin Martin
  @license MIT
  */
-
-export function $<T extends HTMLElement = HTMLElement>(
-  selectors: string,
-  parentNode?: Document | ShadowRoot | HTMLElement
-): CarboniumType<T> {
-  let nodelist: NodeListOf<T>;
-
+export function $(selectors, parentNode) {
+  let nodelist;
   if (selectors[0] == "<") {
-    nodelist = <NodeListOf<T>>(
-      (<unknown>[
-        new DOMParser().parseFromString(selectors, "text/html").body.firstChild,
-      ])
-    );
+    nodelist = [
+      new DOMParser().parseFromString(selectors, "text/html").body.firstChild,
+    ];
   } else {
     nodelist = (parentNode || document).querySelectorAll(selectors);
   }
-  return <CarboniumType<T>>(
-    (<unknown>new Proxy<NodeListOf<T>>(nodelist, proxyHandler))
-  );
+  return new Proxy(nodelist, proxyHandler);
 }
-
 // Used by classList and style
-let currentListNodelist: NodeListOf<HTMLElement>;
-let propList: string;
-
-const proxyHandler: ProxyHandler<NodeListOf<HTMLElement>> = {
+let currentListNodelist;
+let propList;
+const proxyHandler = {
   get(target, prop) {
     let propValue = null;
-
     // Return iterator when asked for iterator
     if (prop == Symbol.iterator) {
-      // console.log('Iterator!!!');
+      console.log("Iterator!!!");
       return function* () {
         for (let i = 0; i < target.length; i++) {
           yield target[i];
         }
       };
     }
-
     // Special case for style, classList and relList
     if (prop == "style" || prop == "classList" || prop == "relList") {
       currentListNodelist = target;
@@ -49,16 +36,14 @@ const proxyHandler: ProxyHandler<NodeListOf<HTMLElement>> = {
       const propValue = Reflect.get(document.body, prop);
       return new Proxy(propValue, proxyHandler);
     }
-
     // style.setProperty, getPropertyValue…, classList.add, contains, remove…, relList…
     if (
       target instanceof CSSStyleDeclaration ||
       target instanceof DOMTokenList
     ) {
       propValue = Reflect.get(document.body[propList], prop);
-
       if (typeof propValue == "function") {
-        return new Proxy<Function>(propValue, {
+        return new Proxy(propValue, {
           apply: function (target, thisArg, argumentsList) {
             currentListNodelist.forEach((el) => {
               Reflect.apply(target, el[propList], argumentsList);
@@ -70,12 +55,11 @@ const proxyHandler: ProxyHandler<NodeListOf<HTMLElement>> = {
         return propValue;
       }
     }
-
     // Are we dealing with an Array function?
     if (Array.prototype.hasOwnProperty(prop)) {
       const propValue = Reflect.get(Array.prototype, prop);
       if (typeof propValue == "function") {
-        return new Proxy<Function>(propValue, {
+        return new Proxy(propValue, {
           apply: function (target, thisArg, argumentsList) {
             const ret = Reflect.apply(target, thisArg, argumentsList);
             // forEach returns same array instead of undefined
@@ -85,7 +69,6 @@ const proxyHandler: ProxyHandler<NodeListOf<HTMLElement>> = {
         });
       }
     }
-
     // Get property or call function on DOM elements
     if (target.length > 0) {
       // Might be DOM element specific, like input.select(),
@@ -100,11 +83,10 @@ const proxyHandler: ProxyHandler<NodeListOf<HTMLElement>> = {
         propValue = Reflect.get(document.body, prop);
       }
     }
-
     // Propagate DOM prop value
     if (propValue) {
       if (typeof propValue == "function") {
-        return new Proxy<Function>(propValue, {
+        return new Proxy(propValue, {
           apply: function (target, thisArg, argumentsList) {
             let retFirst = null;
             let first = true;
@@ -125,11 +107,9 @@ const proxyHandler: ProxyHandler<NodeListOf<HTMLElement>> = {
         return propValue;
       }
     }
-
     // Default
     return Reflect.get(target, prop);
   },
-
   // DOM property is set
   set(target, prop, value) {
     if ("forEach" in target) {
@@ -142,62 +122,3 @@ const proxyHandler: ProxyHandler<NodeListOf<HTMLElement>> = {
     return true;
   },
 };
-
-export type CarboniumType<T extends HTMLElement = HTMLElement> = CarboniumList<
-  T
-> &
-  T;
-
-interface CarboniumList<T extends HTMLElement> extends Array<T> {
-  concat(...items: ConcatArray<T>[]): CarboniumType<T>;
-
-  concat(...items: (T | ConcatArray<T>)[]): CarboniumType<T>;
-
-  reverse(): CarboniumType<T>;
-
-  slice(start?: number, end?: number): CarboniumType<T>;
-
-  splice(start: number, deleteCount?: number): CarboniumType<T>;
-
-  /* tslint:disable:unified-signatures */
-  splice(start: number, deleteCount: number, ...items: T[]): CarboniumType<T>;
-
-  forEach(
-    callbackfn: (value: T, index: number, array: T[]) => void,
-    thisArg?: any
-  ): CarboniumType<T>;
-
-  filter(
-    callbackfn: (value: T, index: number, array: T[]) => boolean,
-    thisArg?: any
-  ): CarboniumType<T>;
-
-  setAttribute(qualifiedName: string, value: string): CarboniumType<T>;
-
-  classList: CarboniumClassList<T>;
-  style: CarboniumStyleList<T>;
-}
-
-interface CarboniumClassList<T extends HTMLElement> extends DOMTokenList {
-  add(...tokens: string[]): CarboniumType<T>;
-
-  remove(...tokens: string[]): CarboniumType<T>;
-
-  replace(oldToken: string, newToken: string): CarboniumType<T>;
-
-  forEach(
-    callbackfn: (value: string, key: number, parent: DOMTokenList) => void,
-    thisArg?: any
-  ): CarboniumType<T>;
-}
-
-interface CarboniumStyleList<T extends HTMLElement>
-  extends CSSStyleDeclaration {
-  removeProperty(property: string): CarboniumList<T> & string;
-
-  setProperty(
-    property: string,
-    value: string | null,
-    priority?: string
-  ): CarboniumType<T>;
-}
