@@ -3,6 +3,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
     connectedCallback() {
       console.log("connectedCallback()");
       // TODO: why carbonium.$ and not $? 😠
+      // @see https://github.com/rollup/rollup/issues/3714
       carbonium.$("nnn").addEventListener("click", () => {});
       console.log("connectedCallback() end");
     }
