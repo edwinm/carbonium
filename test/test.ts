@@ -197,13 +197,9 @@ describe("$", () => {
   it("Custom Element", () => {
     class GolInfo extends HTMLElement {
       connectedCallback() {
-        console.log("connectedCallback()");
-
         $("nnn").addEventListener("click", () => {
           console.log("click");
         });
-
-        console.log("connectedCallback() end");
       }
     }
     customElements.define("gol-info", GolInfo);
