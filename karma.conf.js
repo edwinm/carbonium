@@ -17,5 +17,13 @@ module.exports = function (config) {
       reporters: [{ type: "lcov", subdir: "." }],
       dir: "coverage/",
     },
+    karmaTypescriptConfig: {
+      compilerOptions: {
+        module: "commonjs",
+        sourceMap: true,
+        target: "ES2015",
+      },
+      exclude: ["node_modules"],
+    },
   });
 };
