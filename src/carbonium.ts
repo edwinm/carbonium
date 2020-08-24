@@ -34,7 +34,6 @@ const proxyHandler: ProxyHandler<NodeListOf<HTMLElement>> = {
 
     // Return iterator when asked for iterator
     if (prop == Symbol.iterator) {
-      // console.log('Iterator!!!');
       return function* () {
         for (let i = 0; i < target.length; i++) {
           yield target[i];
