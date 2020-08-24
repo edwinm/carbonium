@@ -9,7 +9,7 @@ module.exports = function (config) {
     reporters: ["progress", "karma-typescript", "coverage"],
     colors: true,
     logLevel: config.LOG_INFO,
-    browsers: ["Firefox"],
+    browsers: ["ChromeHeadless", "FirefoxHeadless"],
     autoWatch: false,
     singleRun: true,
     concurrency: Infinity,
