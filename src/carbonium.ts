@@ -131,7 +131,7 @@ const proxyHandler: ProxyHandler<NodeListOf<HTMLElement>> = {
 
   // DOM property is set
   set(target, prop, value) {
-    if ("forEach" in target) {
+    if ("forEach" in target && !(target instanceof CSSStyleDeclaration)) {
       target.forEach((el) => {
         Reflect.set(el, prop, value);
       });
