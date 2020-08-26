@@ -10,6 +10,7 @@ export function $<T extends HTMLElement = HTMLElement>(
 ): CarboniumType<T> {
   let nodelist: NodeListOf<T>;
 
+  // If the first parameter starts with "<", create a DOM node
   if (selectors[0] == "<") {
     nodelist = <NodeListOf<T>>(
       (<unknown>[
@@ -17,22 +18,26 @@ export function $<T extends HTMLElement = HTMLElement>(
       ])
     );
   } else {
+    // Else, do querySelectorAll
     nodelist = (parentNode || document).querySelectorAll(selectors);
   }
+
+  // Wrap it in a Proxy
   return <CarboniumType<T>>(
     (<unknown>new Proxy<NodeListOf<T>>(nodelist, proxyHandler))
   );
 }
 
-// Used by classList and style
+// Used by style, classList and relList
+// When setting one of these, remember the elements to apply to
 let currentListNodelist: NodeListOf<HTMLElement>;
-let propList: string;
+let propList: "style" | "classList" | "relList";
 
 const proxyHandler: ProxyHandler<NodeListOf<HTMLElement>> = {
   get(target, prop) {
     let propValue = null;
 
-    // Return iterator when asked for iterator
+    // Return iterator when asked for iterator, only used in ES2015+
     if (prop == Symbol.iterator) {
       return function* () {
         for (let i = 0; i < target.length; i++) {
@@ -45,6 +50,8 @@ const proxyHandler: ProxyHandler<NodeListOf<HTMLElement>> = {
     if (prop == "style" || prop == "classList" || prop == "relList") {
       currentListNodelist = target;
       propList = prop;
+      // Matched elements can be a list of any element or an empty list
+      // Use getter of, for example, document.body.style
       const propValue = Reflect.get(document.body, prop);
       return new Proxy(propValue, proxyHandler);
     }
@@ -54,8 +61,11 @@ const proxyHandler: ProxyHandler<NodeListOf<HTMLElement>> = {
       target instanceof CSSStyleDeclaration ||
       target instanceof DOMTokenList
     ) {
+      // Matched elements can be a list of any element or an empty list
+      // Use getter of, for example, document.body.style.color
       propValue = Reflect.get(document.body[propList], prop);
 
+      // When getter is a function, apply it to all matched elements
       if (typeof propValue == "function") {
         return new Proxy<Function>(propValue, {
           apply: function (target, thisArg, argumentsList) {
@@ -70,14 +80,16 @@ const proxyHandler: ProxyHandler<NodeListOf<HTMLElement>> = {
       }
     }
 
-    // Are we dealing with an Array function?
+    // Are we dealing with an Array function like forEach, map and filter?
     if (Array.prototype.hasOwnProperty(prop)) {
       const propValue = Reflect.get(Array.prototype, prop);
       if (typeof propValue == "function") {
         return new Proxy<Function>(propValue, {
           apply: function (target, thisArg, argumentsList) {
             const ret = Reflect.apply(target, thisArg, argumentsList);
-            // forEach returns same array instead of undefined
+            // When function returns undefined (like forEach),
+            // return all matched elements, so calls can be chained
+            // For example forEach(…).setAttribute(…)
             const newTarget = typeof ret != "undefined" ? ret : thisArg;
             return new Proxy(newTarget, proxyHandler);
           },
@@ -94,7 +106,7 @@ const proxyHandler: ProxyHandler<NodeListOf<HTMLElement>> = {
       }
     } else {
       // Empty list, targeted DOM element unknown,
-      // use document.body
+      // use getter of document.body
       if (prop in document.body) {
         propValue = Reflect.get(document.body, prop);
       }
@@ -146,6 +158,8 @@ export type CarboniumType<T extends HTMLElement = HTMLElement> = CarboniumList<
   T
 > &
   T;
+
+// Interface definitions
 
 interface CarboniumList<T extends HTMLElement> extends Array<T> {
   concat(...items: ConcatArray<T>[]): CarboniumType<T>;
