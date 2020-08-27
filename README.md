@@ -2,7 +2,7 @@
 
 # carbonium
 
-> One kilobyte library for easy manipulation of the DOM.
+> One kilobyte library for easy manipulation of the DOM
 
 With carbonium, you can call `$(selector)` and the result can be accessed as both an element and an array of elements.
 
@@ -72,7 +72,7 @@ $<HTMLInputElement>("input, select, button").disabled = true;
 
 ## Why?
 
-Most frameworks are quite bulky and are bad for performance, both when loading a site and when doing DOM operations. ([1](https://css-tricks.com/radeventlistener-a-tale-of-client-side-framework-performance/)).
+Most frameworks are quite bulky and are bad for performance, both when loading a site and when doing DOM operations ([1](https://css-tricks.com/radeventlistener-a-tale-of-client-side-framework-performance/)).
 
 On the other side, using native DOM and writing `document.querySelectorAll(selector)` each time you want to do some DOM operations will become tedious.
 You can write your own helper function, but that only takes part of the pain away.
