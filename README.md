@@ -53,11 +53,13 @@ const { $ } = await import(
 ### `$(selector [, document])`
 
 **`selector: string`** - Selector to select elements
+
 **`document: object` (optional)** - Document or element in which to apply the selector
 
 ### `$(html [, document])`
 
 **`html: string`** - HTML of element to create
+
 **`document: object` (optional)** - Document or element in which to apply the selector
 
 ## Typescript
