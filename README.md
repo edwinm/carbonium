@@ -4,18 +4,17 @@
 
 > One kilobyte library for easy manipulation of the DOM.
 
-Writing `document.querySelectorAll(selector)` each time you want to do some DOM operations will become tedious.
-You can write your own helper function, but that only takes part of the pain away.
+With carbonium, you can call `$(selector)` and the result can be accessed as both an element and an array of elements.
 
 ## Examples
 
-To clear all elements with class `text`:
+To set the `left` CSS property of all elements with the class `indent` to 40 pixels:
 
 ```javascript
-$(".text").textContent = "";
+$(".indent").style.left = "40px";
 ```
 
-To add the class "important" to all div's with "priority" as content:
+To add the class `important` to all div's with "priority" as content:
 
 ```javascript
 $("div")
@@ -64,8 +63,8 @@ const { $ } = await import(
 ## Typescript
 
 Carbonium is written in TypeScript and provides all typings.
-You can use generics to declare an element type,
-for example `HTMLInputElement` to make the `disabled` property available.
+You can use generics to declare a specific type of element,
+for example `HTMLInputElement` to make the `disabled` property available:
 
 ```typescript
 $<HTMLInputElement>("input, select, button").disabled = true;
@@ -73,13 +72,12 @@ $<HTMLInputElement>("input, select, button").disabled = true;
 
 ## Why?
 
-Most websites don't need a JavaScript framework.
-JavaScript frameworks often makes sites slower than necessary.
+Most frameworks are quite bulky and are bad for performance, both when loading a site and when doing DOM operations. ([1](https://css-tricks.com/radeventlistener-a-tale-of-client-side-framework-performance/)).
 
-Read for example [this article by Jeremy Wagner](https://css-tricks.com/radeventlistener-a-tale-of-client-side-framework-performance/)
-that compares the speed of frameworks with native JavaScript.
+On the other side, using native DOM and writing `document.querySelectorAll(selector)` each time you want to do some DOM operations will become tedious.
+You can write your own helper function, but that only takes part of the pain away.
 
-Compared to native DOM, carbonium is easier to use.
+Carbonium seeks to find the sweet spot between using frameworks and using the native DOM.
 
 ## jQuery
 
@@ -87,15 +85,14 @@ Isn't this just jQuery and isn't that obsolete and bad practice?
 
 No. Carbonium doesn't have the disadvantages of jQuery:
 
-1. Carbonium is very small: around one kilobyte.
+1. Carbonium is very small: just around one kilobyte.
 2. There's no new API to learn, carbonium only provides standard DOM API's.
 
 ## Name
 
 Carbonium is the Latin name for carbon. Carbon has two forms (allotropes): graphite and diamond.
-Just like this library, which presents itself as either a list of elements or the
-properties of an element.
+Just like this library, in which the result presents itself both as one element and a list of elements.
 
 ## License
 
-MIT © 2020 [Edwin Martin](https://bitstorm.org/)
+Copyright 2020 [Edwin Martin](https://bitstorm.org/) and released with MIT license.
