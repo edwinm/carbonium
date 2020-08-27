@@ -26,6 +26,14 @@
     "dist/bundle.iife.min.js",
     "dist/bundle.iife.min.js.map"
   ],
+  "keywords": [
+    "dom",
+    "qsa",
+    "typescript",
+    "front-end",
+    "lightweight",
+    "micro"
+  ],
   "author": {
     "name": "Edwin Martin",
     "email": "edwin@bitstorm.org",
