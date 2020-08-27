@@ -1,5 +1,5 @@
 /**
- Carbonium 0.1.7
+ Carbonium 1.0.0
  @copyright 2020 Edwin Martin
  @license MIT
  */
