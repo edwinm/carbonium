@@ -4,7 +4,8 @@
 
 > One kilobyte library for easy manipulation of the DOM
 
-With carbonium, you can call `$(selector)` and the result can be accessed as both an element and an array of elements.
+With carbonium, you can call `$(selector)` and the result can be accessed as both an element and an array of matched elements.
+Operations on the result as an element will be applied to all matched elements.
 
 ## Examples
 
@@ -62,6 +63,8 @@ const { $ } = await import(
 
 **`document: object` (optional)** - Document or element in which to apply the selector
 
+Returns an array of the matched elements, which can also be accessed as a single element.
+
 ## Typescript
 
 Carbonium is written in TypeScript and provides all typings.
@@ -79,7 +82,7 @@ Most frameworks are quite bulky and are bad for performance, both when loading a
 On the other side, using native DOM and writing `document.querySelectorAll(selector)` each time you want to do some DOM operations will become tedious.
 You can write your own helper function, but that only takes part of the pain away.
 
-Carbonium seeks to find the sweet spot between using frameworks and using the native DOM.
+Carbonium seeks to find the sweet spot between using a framework and using the native DOM.
 
 ## jQuery
 
@@ -93,8 +96,8 @@ No. Carbonium doesn't have the disadvantages of jQuery:
 ## Name
 
 Carbonium is the Latin name for carbon. Carbon has two forms (allotropes): graphite and diamond.
-Just like this library, in which the result presents itself both as one element and a list of elements.
+Just like this library, in which the result presents itself both as one element and as a list of elements.
 
 ## License
 
-Copyright 2020 [Edwin Martin](https://bitstorm.org/) and released with MIT license.
+Copyright 2020 [Edwin Martin](https://bitstorm.org/) and released under the MIT license.
