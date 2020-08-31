@@ -4,8 +4,8 @@
 
 > One kilobyte library for easy manipulation of the DOM
 
-With carbonium, you can call `$(selector)` and the result can be accessed as both an element and an array of matched elements.
-Operations on the result as an element will be applied to all matched elements.
+With carbonium, you can call `$(selector)` and the result can be accessed as both an DOM element and an array of matched elements.
+DOM element operations are applied to all matched elements.
 
 ## Examples
 
