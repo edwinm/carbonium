@@ -93,6 +93,11 @@ No. Carbonium doesn't have the disadvantages of jQuery:
 1. Carbonium is very small: just around one kilobyte.
 2. There's no new API to learn, carbonium only provides standard DOM API's.
 
+## Browser support
+
+Carbonium is supported by all modern browsers. It is tested to work on desktop and mobile with Firefox 79, Chrome 84, Safari 13 and Edge 84.
+It should work with all browsers supporting Proxy, see [Can I use Proxy](https://caniuse.com/#feat=proxy).
+
 ## Name
 
 Carbonium is the Latin name for carbon. Carbon has two forms (allotropes): graphite and diamond.
