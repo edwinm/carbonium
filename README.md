@@ -65,9 +65,9 @@ const { $ } = await import(
 
 Returns an array of the matched elements, which can also be accessed as a single element.
 
-## Typescript
+## TypeScript
 
-Carbonium is written in TypeScript and provides all typings.
+If you use TypeScript, it's good to know Carbonium is written in TypeScript and provides all typings.
 You can use generics to declare a specific type of element,
 for example `HTMLInputElement` to make the `disabled` property available:
 
