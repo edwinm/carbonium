@@ -51,17 +51,17 @@ const { $ } = await import(
 
 ## API
 
-### `$(selector [, document])`
+### `$(selector [, parentNode])`
 
 **`selector: string`** - Selector to select elements
 
-**`document: object` (optional)** - Document or element in which to apply the selector
+**`parentNode: Document | Element`** (optional) - Document or element in which to apply the selector
 
-### `$(html [, document])`
+### `$(html [, parentNode])`
 
-**`html: string`** - HTML of element to create
+**`html: string`** - HTML of element to create, starting with "<".
 
-**`document: object` (optional)** - Document or element in which to apply the selector
+**`parentNode: Document | Element`** (optional) - Document or element in which to apply the selector
 
 Returns an array of the matched elements, which can also be accessed as a single element.
 
@@ -96,7 +96,7 @@ No. Carbonium doesn't have the disadvantages of jQuery:
 ## Browser support
 
 Carbonium is supported by all modern browsers. It is tested to work on desktop and mobile with Firefox 79, Chrome 84, Safari 13 and Edge 84.
-It should work with all browsers supporting Proxy, see [Can I use Proxy](https://caniuse.com/#feat=proxy).
+It should work with all browsers supporting Proxy, see [Can I use Proxy](https://caniuse.com/#feat=proxy) for support tables.
 
 ## Name
 
