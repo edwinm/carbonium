@@ -91,7 +91,7 @@ Isn't this just jQuery and isn't that obsolete and bad practice?
 No. Carbonium doesn't have the disadvantages of jQuery:
 
 1. Carbonium is very small: just around one kilobyte.
-2. There's no new API to learn, carbonium only provides standard DOM API's.
+2. There's no new API to learn, carbonium provides only standard DOM API's.
 
 ## Browser support
 
