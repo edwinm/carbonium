@@ -100,6 +100,9 @@ It should work with all browsers supporting Proxy, see [Can I use Proxy](https:/
 
 ## Name
 
+[<img src="https://raw.githubusercontent.com/edwinm/carbonium/master/assets/Diamond_and_graphite.jpg" align="right"
+     alt="Photo of diamond and graphite" width="120" height="178">](https://commons.wikimedia.org/wiki/File:Diamond_and_graphite_without_structures.jpg)
+
 Carbonium is the Latin name for carbon. Carbon has two forms (allotropes): graphite and diamond.
 Just like this library, in which the result presents itself both as one element and as a list of elements.
 
