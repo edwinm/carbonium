@@ -106,6 +106,8 @@ It should work with all browsers supporting Proxy, see [Can I use Proxy](https:/
 Carbonium is the Latin name for carbon. Carbon has two forms (allotropes): graphite and diamond.
 Just like this library, in which the result presents itself both as one element and as a list of elements.
 
+[Photo CC BY-SA 3.0](https://commons.wikimedia.org/wiki/File:Diamond_and_graphite_without_structures.jpg)
+
 ## License
 
 Copyright 2020 [Edwin Martin](https://bitstorm.org/) and released under the MIT license.
