@@ -51,7 +51,7 @@ const { $ } = await import(
 
 ## API
 
-###Select elements
+### Select elements
 
 ### `$(selector [, parentNode])`
 
@@ -62,11 +62,11 @@ const { $ } = await import(
 | selector   | string                         | Selector to select elements                                                |
 | parentNode | Document \| Element (optional) | Document or element in which to apply the selector, defaults to `document` |
 
-####Returns
+#### Returns
 
 An array of the matched elements, which can also be accessed as a single element.
 
-###Create element
+### Create element
 
 ### `$(html [, parentNode])`
 
@@ -77,7 +77,7 @@ An array of the matched elements, which can also be accessed as a single element
 | selector   | string                         | HTML of element to create, starting with "<"                               |
 | parentNode | Document \| Element (optional) | Document or element in which to apply the selector, defaults to `document` |
 
-####Returns
+#### Returns
 
 An array with one created element.
 
