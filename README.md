@@ -51,19 +51,35 @@ const { $ } = await import(
 
 ## API
 
+###Select elements
+
 ### `$(selector [, parentNode])`
 
-**`selector: string`** - Selector to select elements
+#### Parameters
 
-**`parentNode: Document | Element`** (optional) - Document or element in which to apply the selector
+| Name       | Type                           | Description                                                                |
+| ---------- | ------------------------------ | -------------------------------------------------------------------------- |
+| selector   | string                         | Selector to select elements                                                |
+| parentNode | Document \| Element (optional) | Document or element in which to apply the selector, defaults to `document` |
+
+####Returns
+
+An array of the matched elements, which can also be accessed as a single element.
+
+###Create element
 
 ### `$(html [, parentNode])`
 
-**`html: string`** - HTML of element to create, starting with "<".
+#### Parameters
 
-**`parentNode: Document | Element`** (optional) - Document or element in which to apply the selector
+| Name       | Type                           | Description                                                                |
+| ---------- | ------------------------------ | -------------------------------------------------------------------------- |
+| selector   | string                         | HTML of element to create, starting with "<"                               |
+| parentNode | Document \| Element (optional) | Document or element in which to apply the selector, defaults to `document` |
 
-Returns an array of the matched elements, which can also be accessed as a single element.
+####Returns
+
+An array with one created element.
 
 ## TypeScript
 
