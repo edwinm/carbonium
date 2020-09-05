@@ -45,7 +45,7 @@ If you don't want to install or use a bundler like webpack or rollup.js, you can
 
 ```javascript
 const { $ } = await import(
-  "https://cdn.jsdelivr.net/npm/carbonium/dist/bundle.min.js"
+  "https://cdn.jsdelivr.net/npm/carbonium@1/dist/bundle.min.js"
 );
 ```
 
