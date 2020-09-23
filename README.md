@@ -93,9 +93,8 @@ $<HTMLInputElement>("input, select, button").disabled = true;
 
 ## Why?
 
-Most frameworks are quite bulky and are bad for performance, both when loading a site and when doing DOM operations ([1](https://css-tricks.com/radeventlistener-a-tale-of-client-side-framework-performance/)).
-
-On the other side, using native DOM and writing `document.querySelectorAll(selector)` each time you want to do some DOM operations will become tedious.
+You might find most frameworks are quite bulky and bad for performance ([1](https://css-tricks.com/radeventlistener-a-tale-of-client-side-framework-performance/)).
+On the other side, you might find using native DOM and writing `document.querySelectorAll(selector)` each time you want to do some DOM operations to become tedious.
 You can write your own helper function, but that only takes part of the pain away.
 
 Carbonium seeks to find the sweet spot between using a framework and using the native DOM.
