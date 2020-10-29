@@ -74,7 +74,7 @@ An array of the matched elements, which can also be accessed as a single element
 
 | Name       | Type                           | Description                                                                |
 | ---------- | ------------------------------ | -------------------------------------------------------------------------- |
-| selector   | string                         | HTML of element to create, starting with "<"                               |
+| html       | string                         | HTML of element to create, starting with "<"                               |
 | parentNode | Document \| Element (optional) | Document or element in which to apply the selector, defaults to `document` |
 
 #### Returns
