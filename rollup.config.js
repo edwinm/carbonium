@@ -11,12 +11,20 @@ export default {
       format: "es",
       name: "bundle",
       sourcemap: true,
+      plugins: [terser()],
+    },
+    {
+      file: "dist/bundle.js",
+      format: "es",
+      name: "bundle",
+      sourcemap: true,
     },
     {
       file: "dist/bundle.iife.min.js",
       format: "iife",
       name: "carbonium",
       sourcemap: true,
+      plugins: [terser()],
     },
   ],
   plugins: [
@@ -26,6 +34,5 @@ export default {
     typescript({
       clean: true,
     }),
-    terser(),
   ],
 };
