@@ -7,12 +7,14 @@
   "types": "dist/carbonium.d.ts",
   "sideEffects": false,
   "scripts": {
+    "prepare": "husky install",
     "start": "http-server -o demo/ --silent",
     "build": "rollup --config --sourcemap",
     "dev": "rollup --config --sourcemap --watch",
     "release": "npm i --package-lock && npm run lint && npm test && npm run build && npm publish",
     "test": "karma start",
-    "lint": "npx eslint . --ext .js,.ts"
+    "lint": "npx eslint . --ext .js,.ts",
+    "prettier": "prettier --config .prettierrc.json src/**/*.{js,ts} --write"
   },
   "repository": {
     "type": "git",
@@ -55,7 +57,7 @@
     "eslint": "^7.7.0",
     "eslint-config-prettier": "^7.1.0",
     "http-server": "^0.12.3",
-    "husky": "^4.2.5",
+    "husky": "^7.0.4",
     "karma": "^5.1.1",
     "karma-chai": "^0.1.0",
     "karma-chrome-launcher": "^3.1.0",
@@ -71,10 +73,5 @@
     "rollup-plugin-typescript2": "^0.29.0",
     "tslib": "^2.0.1",
     "typescript": "^4.0.2"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "pretty-quick --staged"
-    }
   }
 }
