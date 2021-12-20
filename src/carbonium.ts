@@ -201,7 +201,7 @@ interface CarboniumClassList<T extends HTMLElement> extends DOMTokenList {
 
   remove(...tokens: string[]): CarboniumType<T>;
 
-  replace(oldToken: string, newToken: string): CarboniumType<T>;
+  replace(oldToken: string, newToken: string): boolean;
 
   forEach(
     callbackfn: (value: string, key: number, parent: DOMTokenList) => void,
