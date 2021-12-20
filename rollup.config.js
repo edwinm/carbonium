@@ -29,6 +29,7 @@ export default {
   ],
   plugins: [
     replace({
+      preventAssignment: false,
       __buildVersion__: pkg.version,
     }),
     typescript({
