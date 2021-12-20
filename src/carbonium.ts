@@ -161,10 +161,8 @@ const proxyHandler: ProxyHandler<NodeListOf<HTMLElement>> = {
   },
 };
 
-export type CarboniumType<T extends HTMLElement = HTMLElement> = CarboniumList<
-  T
-> &
-  T;
+export type CarboniumType<T extends HTMLElement = HTMLElement> =
+  CarboniumList<T> & T;
 
 // Interface definitions
 
