@@ -152,6 +152,13 @@ const proxyHandler: ProxyHandler<NodeListOf<HTMLElement>> = {
     }
     return true;
   },
+
+  deleteProperty(target, prop) {
+    if (prop in target) {
+      return delete target[prop];
+    }
+    return false;
+  },
 };
 
 export type CarboniumType<T extends HTMLElement = HTMLElement> = CarboniumList<
