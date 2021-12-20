@@ -21,7 +21,7 @@ interface CarboniumList<T extends HTMLElement> extends Array<T> {
 interface CarboniumClassList<T extends HTMLElement> extends DOMTokenList {
     add(...tokens: string[]): CarboniumType<T>;
     remove(...tokens: string[]): CarboniumType<T>;
-    replace(oldToken: string, newToken: string): CarboniumType<T>;
+    replace(oldToken: string, newToken: string): boolean;
     forEach(callbackfn: (value: string, key: number, parent: DOMTokenList) => void, thisArg?: any): CarboniumType<T>;
 }
 interface CarboniumStyleList<T extends HTMLElement> extends CSSStyleDeclaration {

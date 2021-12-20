@@ -134,6 +134,12 @@ const proxyHandler = {
         }
         return true;
     },
+    deleteProperty(target, prop) {
+        if (prop in target) {
+            return delete target[prop];
+        }
+        return false;
+    },
 };
 
 export { $ };
