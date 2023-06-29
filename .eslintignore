@@ -7,7 +7,7 @@ coverage
 # don't lint demo
 demo
 # don't lint configuration files
-.eslintrc.js
-karma.conf.js
+.eslintrc.cjs
+karma.conf.cjs
 # don't lint iterator test
 iteratortest

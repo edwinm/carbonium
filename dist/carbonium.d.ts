@@ -1,10 +1,10 @@
 /**
- Carbonium 1.2.0
+ Carbonium 1.2.2
  @copyright 2020 Edwin Martin
  @license MIT
  */
 export declare function $<T extends HTMLElement = HTMLElement>(selectors: string, parentNode?: Document | ShadowRoot | HTMLElement): CarboniumType<T>;
-export declare type CarboniumType<T extends HTMLElement = HTMLElement> = CarboniumList<T> & T;
+export type CarboniumType<T extends HTMLElement = HTMLElement> = CarboniumList<T> & T;
 interface CarboniumList<T extends HTMLElement> extends Array<T> {
     concat(...items: ConcatArray<T>[]): CarboniumType<T>;
     concat(...items: (T | ConcatArray<T>)[]): CarboniumType<T>;
