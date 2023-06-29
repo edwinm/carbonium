@@ -1,4 +1,4 @@
-![test](https://github.com/edwinm/carbonium/workflows/Test/badge.svg) [![Coverage Status](https://coveralls.io/repos/github/edwinm/carbonium/badge.svg?branch=master)](https://coveralls.io/github/edwinm/carbonium?branch=master) [![CodeFactor](https://www.codefactor.io/repository/github/edwinm/carbonium/badge)](https://www.codefactor.io/repository/github/edwinm/carbonium) [![Size](https://badgen.net/badgesize/gzip/edwinm/carbonium/master/dist/bundle.min.js)](https://bundlephobia.com/result?p=carbonium) [![npm version](https://badge.fury.io/js/carbonium.svg)](https://www.npmjs.com/package/carbonium) [![GitHub](https://img.shields.io/github/license/edwinm/carbonium.svg)](https://github.com/edwinm/carbonium/blob/master/LICENSE)
+[![CodeQL](https://github.com/edwinm/carbonium/actions/workflows/codeql.yml/badge.svg)](https://github.com/edwinm/carbonium/actions/workflows/codeql.yml) [![Coverage Status](https://coveralls.io/repos/github/edwinm/carbonium/badge.svg?branch=master)](https://coveralls.io/github/edwinm/carbonium?branch=master) [![Socket Badge](https://socket.dev/api/badge/npm/package/carbonium)](https://socket.dev/npm/package/carbonium) [![CodeFactor](https://www.codefactor.io/repository/github/edwinm/carbonium/badge)](https://www.codefactor.io/repository/github/edwinm/carbonium) [![Size](https://badgen.net/badgesize/gzip/edwinm/carbonium/master/dist/bundle.min.js)](https://bundlephobia.com/result?p=carbonium) [![npm version](https://badge.fury.io/js/carbonium.svg)](https://www.npmjs.com/package/carbonium) [![GitHub](https://img.shields.io/github/license/edwinm/carbonium.svg)](https://github.com/edwinm/carbonium/blob/master/LICENSE)
 
 [![Carbonium](https://raw.githubusercontent.com/edwinm/carbonium/master/assets/carbonium.svg)](#readme)
 
@@ -125,4 +125,4 @@ Just like this library, in which the result presents itself both as one element 
 
 ## License
 
-Copyright 2020 [Edwin Martin](https://bitstorm.org/) and released under the MIT license.
+Copyright 2023 [Edwin Martin](https://bitstorm.org/) and released under the MIT license.
