@@ -3,7 +3,7 @@
   "version": "1.2.2",
   "description": "Carbonium, for easy manipulation of the DOM",
   "type": "module",
-  "main": "dist/bundle.iife.min.js",
+  "browser": "dist/bundle.iife.min.js",
   "module": "dist/bundle.min.js",
   "types": "dist/carbonium.d.ts",
   "sideEffects": false,
