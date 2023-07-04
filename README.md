@@ -2,7 +2,7 @@
 
 [![Carbonium](https://raw.githubusercontent.com/edwinm/carbonium/master/assets/carbonium.svg)](#readme)
 
-> One kilobyte library for easy manipulation of the DOM
+> One kilobyte library for easy DOM manipulation
 
 With carbonium, you can call `$(selector)` and the result can be accessed as both an DOM element and an array of matched elements.
 DOM element operations are applied to all matched elements.

@@ -1,7 +1,7 @@
 {
   "name": "carbonium",
-  "version": "1.2.2",
-  "description": "Carbonium, for easy manipulation of the DOM",
+  "version": "1.2.3",
+  "description": "One kilobyte library for easy DOM manipulation",
   "type": "module",
   "browser": "dist/bundle.iife.min.js",
   "module": "dist/bundle.min.js",
@@ -15,7 +15,7 @@
     "release": "npm i --package-lock && npm run lint && npm test && npm run build && npm publish",
     "test": "karma start karma.conf.cjs",
     "lint": "npx eslint . --ext .js,.ts",
-    "prettier": "prettier --config .prettierrc.json src/**/*.{js,ts} --write"
+    "prettier": "prettier --config .prettierrc.json src/**/*.ts *.json --write"
   },
   "repository": {
     "type": "git",
