@@ -1,6 +1,6 @@
 {
   "name": "carbonium",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "description": "One kilobyte library for easy DOM manipulation",
   "type": "module",
   "browser": "dist/bundle.iife.min.js",

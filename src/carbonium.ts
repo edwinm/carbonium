@@ -11,7 +11,7 @@ export function $<T extends HTMLElement = HTMLElement>(
   let nodelist: NodeListOf<T>;
 
   // If the first parameter starts with "<", create a DOM node
-  if (selectors[0] == "<") {
+  if (selectors.startsWith("<")) {
     nodelist = <NodeListOf<T>>(
       (<unknown>[
         new DOMParser().parseFromString(selectors, "text/html").body.firstChild,
@@ -40,8 +40,8 @@ const proxyHandler: ProxyHandler<NodeListOf<HTMLElement>> = {
     // Return iterator when asked for iterator, only used in ES2015+
     if (prop == Symbol.iterator) {
       return function* () {
-        for (let i = 0; i < target.length; i++) {
-          yield target[i];
+        for (const element of target) {
+          yield element;
         }
       };
     }
@@ -127,9 +127,7 @@ const proxyHandler: ProxyHandler<NodeListOf<HTMLElement>> = {
                 first = false;
               }
             }
-            return retFirst != null && retFirst != undefined
-              ? retFirst
-              : thisArg;
+            return retFirst ?? thisArg;
           },
         });
       } else {

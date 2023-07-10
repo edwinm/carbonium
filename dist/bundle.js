@@ -1,12 +1,12 @@
 /**
- Carbonium 1.2.3
+ Carbonium 1.2.4
  @copyright 2020 Edwin Martin
  @license MIT
  */
 function $(selectors, parentNode) {
     let nodelist;
     // If the first parameter starts with "<", create a DOM node
-    if (selectors[0] == "<") {
+    if (selectors.startsWith("<")) {
         nodelist = [
             new DOMParser().parseFromString(selectors, "text/html").body.firstChild,
         ];
@@ -28,8 +28,8 @@ const proxyHandler = {
         // Return iterator when asked for iterator, only used in ES2015+
         if (prop == Symbol.iterator) {
             return function* () {
-                for (let i = 0; i < target.length; i++) {
-                    yield target[i];
+                for (const element of target) {
+                    yield element;
                 }
             };
         }
@@ -109,9 +109,7 @@ const proxyHandler = {
                                 first = false;
                             }
                         }
-                        return retFirst != null && retFirst != undefined
-                            ? retFirst
-                            : thisArg;
+                        return retFirst !== null && retFirst !== void 0 ? retFirst : thisArg;
                     },
                 });
             }
