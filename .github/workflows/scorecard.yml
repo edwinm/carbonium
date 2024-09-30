@@ -2,7 +2,7 @@
 # by a third-party and are governed by separate terms of service, privacy
 # policy, and support documentation.
 
-name: Scorecard supply-chain security
+name: OSSF Scorecard
 on:
   # For Branch-Protection check. Only the default branch is supported. See
   # https://github.com/ossf/scorecard/blob/main/docs/checks.md#branch-protection
@@ -10,9 +10,9 @@ on:
   # To guarantee Maintained check is occasionally updated. See
   # https://github.com/ossf/scorecard/blob/main/docs/checks.md#maintained
   schedule:
-    - cron: '40 22 * * 5'
+    - cron: "40 22 * * 5"
   push:
-    branches: [ "master" ]
+    branches: ["master"]
 
 # Declare default permissions as read only.
 permissions: read-all
