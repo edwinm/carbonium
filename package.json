@@ -30,6 +30,7 @@
     "dist/bundle.iife.min.js.map"
   ],
   "keywords": [
+    "front-end",
     "dom",
     "qsa",
     "jquery",
