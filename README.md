@@ -1,3 +1,35 @@
+
+<div align="right">
+  <details>
+    <summary >🌐 Language</summary>
+    <div>
+      <div align="center">
+        <a href="https://openaitx.github.io/view.html?user=edwinm&project=carbonium&lang=en">English</a>
+        | <a href="https://openaitx.github.io/view.html?user=edwinm&project=carbonium&lang=zh-CN">简体中文</a>
+        | <a href="https://openaitx.github.io/view.html?user=edwinm&project=carbonium&lang=zh-TW">繁體中文</a>
+        | <a href="https://openaitx.github.io/view.html?user=edwinm&project=carbonium&lang=ja">日本語</a>
+        | <a href="https://openaitx.github.io/view.html?user=edwinm&project=carbonium&lang=ko">한국어</a>
+        | <a href="https://openaitx.github.io/view.html?user=edwinm&project=carbonium&lang=hi">हिन्दी</a>
+        | <a href="https://openaitx.github.io/view.html?user=edwinm&project=carbonium&lang=th">ไทย</a>
+        | <a href="https://openaitx.github.io/view.html?user=edwinm&project=carbonium&lang=fr">Français</a>
+        | <a href="https://openaitx.github.io/view.html?user=edwinm&project=carbonium&lang=de">Deutsch</a>
+        | <a href="https://openaitx.github.io/view.html?user=edwinm&project=carbonium&lang=es">Español</a>
+        | <a href="https://openaitx.github.io/view.html?user=edwinm&project=carbonium&lang=it">Italiano</a>
+        | <a href="https://openaitx.github.io/view.html?user=edwinm&project=carbonium&lang=ru">Русский</a>
+        | <a href="https://openaitx.github.io/view.html?user=edwinm&project=carbonium&lang=pt">Português</a>
+        | <a href="https://openaitx.github.io/view.html?user=edwinm&project=carbonium&lang=nl">Nederlands</a>
+        | <a href="https://openaitx.github.io/view.html?user=edwinm&project=carbonium&lang=pl">Polski</a>
+        | <a href="https://openaitx.github.io/view.html?user=edwinm&project=carbonium&lang=ar">العربية</a>
+        | <a href="https://openaitx.github.io/view.html?user=edwinm&project=carbonium&lang=fa">فارسی</a>
+        | <a href="https://openaitx.github.io/view.html?user=edwinm&project=carbonium&lang=tr">Türkçe</a>
+        | <a href="https://openaitx.github.io/view.html?user=edwinm&project=carbonium&lang=vi">Tiếng Việt</a>
+        | <a href="https://openaitx.github.io/view.html?user=edwinm&project=carbonium&lang=id">Bahasa Indonesia</a>
+        | <a href="https://openaitx.github.io/view.html?user=edwinm&project=carbonium&lang=as">অসমীয়া</
+      </div>
+    </div>
+  </details>
+</div>
+
 [![Scorecard supply-chain security](https://github.com/edwinm/carbonium/actions/workflows/scorecard.yml/badge.svg)](https://github.com/edwinm/carbonium/actions/workflows/scorecard.yml) [![CodeQL](https://github.com/edwinm/carbonium/actions/workflows/codeql.yml/badge.svg)](https://github.com/edwinm/carbonium/actions/workflows/codeql.yml) [![Coverage Status](https://coveralls.io/repos/github/edwinm/carbonium/badge.svg?branch=master)](https://coveralls.io/github/edwinm/carbonium?branch=master) [![Socket Badge](https://socket.dev/api/badge/npm/package/carbonium)](https://socket.dev/npm/package/carbonium) [![CodeFactor](https://www.codefactor.io/repository/github/edwinm/carbonium/badge)](https://www.codefactor.io/repository/github/edwinm/carbonium) [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=edwinm_carbonium&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=edwinm_carbonium) [![Snyk test results](https://snyk.io/test/github/edwinm/carbonium/badge.svg)](https://snyk.io/test/github/edwinm/carbonium) [![Size](https://badgen.net/bundlephobia/minzip/carbonium)](https://bundlephobia.com/package/carbonium) [![npm version](https://badge.fury.io/js/carbonium.svg)](https://www.npmjs.com/package/carbonium) [![GitHub](https://img.shields.io/github/license/edwinm/carbonium.svg)](https://github.com/edwinm/carbonium/blob/master/LICENSE) ![CodeRabbit Pull Request Reviews](https://img.shields.io/coderabbit/prs/github/edwinm/carbonium?utm_source=oss&utm_medium=github&utm_campaign=edwinm%2Fcarbonium&labelColor=171717&color=FF570A&link=https%3A%2F%2Fcoderabbit.ai&label=CodeRabbit+Reviews)
 
 [![Carbonium](https://raw.githubusercontent.com/edwinm/carbonium/master/assets/carbonium.svg)](#readme)
