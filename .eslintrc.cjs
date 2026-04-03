@@ -23,8 +23,8 @@ module.exports = {
   },
   plugins: ["@typescript-eslint"],
   rules: {
-    "@typescript-eslint/ban-types": "off",
     "no-prototype-builtins": "off",
     "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/no-unsafe-function-type": "off",
   },
 };
