@@ -1,5 +1,5 @@
 import { createRequire } from "module";
-import typescript from "rollup-plugin-typescript2";
+import typescript from "@rollup/plugin-typescript";
 import terser from "@rollup/plugin-terser";
 import replace from "@rollup/plugin-replace";
 
@@ -35,8 +35,6 @@ export default {
       preventAssignment: false,
       __buildVersion__: pkg.version,
     }),
-    typescript({
-      clean: true,
-    }),
+    typescript({ declarationDir: "dist" }),
   ],
 };

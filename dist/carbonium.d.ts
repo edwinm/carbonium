@@ -1,5 +1,5 @@
 /**
- Carbonium 1.2.4
+ Carbonium __buildVersion__
  @copyright 2020 Edwin Martin
  @license MIT
  */
