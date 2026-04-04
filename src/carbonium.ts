@@ -63,14 +63,14 @@ const proxyHandler: ProxyHandler<NodeListOf<HTMLElement>> = {
     ) {
       // Matched elements can be a list of any element or an empty list
       // Use getter of, for example, document.body.style.color
-      propValue = Reflect.get(document.body[propList], prop);
+      propValue = Reflect.get((document.body as any)[propList], prop);
 
       // When getter is a function, apply it to all matched elements
       if (typeof propValue == "function") {
         return new Proxy<Function>(propValue, {
           apply: function (target, thisArg, argumentsList) {
             currentListNodelist.forEach((el) => {
-              Reflect.apply(target, el[propList], argumentsList);
+              Reflect.apply(target, (el as any)[propList], argumentsList);
             });
             return new Proxy(currentListNodelist, proxyHandler);
           },
@@ -153,7 +153,7 @@ const proxyHandler: ProxyHandler<NodeListOf<HTMLElement>> = {
 
   deleteProperty(target, prop) {
     if (prop in target) {
-      return delete target[prop];
+      return delete (target as any)[prop];
     }
     return false;
   },

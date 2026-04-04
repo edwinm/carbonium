@@ -1,6 +1,8 @@
 {
   "compilerOptions": {
     "target": "es6",
+    "rootDir": "./src",
+    "moduleResolution": "bundler",
     "sourceMap": true,
     "declaration": true,
     "skipLibCheck": true
