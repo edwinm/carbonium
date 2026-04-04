@@ -1,12 +1,36 @@
-import { test, expect } from "@playwright/test";
+import { test, expect, Page } from "@playwright/test";
 import path from "path";
 
+declare global {
+  function $(
+    selector: string,
+    parent?: Document | ShadowRoot | HTMLElement
+  ): any;
+}
+
 const bundlePath = path.resolve("./dist/bundle.iife.min.js");
+
+async function checkFirstClassAndText(page: Page) {
+  const results = await page.evaluate(() => {
+    const divs = document.getElementsByTagName("div");
+    return [
+      divs[0].classList.contains("some-class"),
+      divs[5].classList.contains("some-class"),
+      divs[0].textContent,
+      divs[5].textContent,
+    ] as [boolean, boolean, string | null, string | null];
+  });
+  expect(results[0]).toBeTruthy();
+  expect(results[1]).toBeFalsy();
+  expect(results[2]).toBe("hello");
+  expect(results[3]).toBe("item5");
+}
 
 test.beforeEach(async ({ page }) => {
   await page.goto("about:blank");
   await page.addScriptTag({ path: bundlePath });
   await page.evaluate(() => {
+    window.$ = (window as any).carbonium.$;
     document.body.innerHTML = "";
     for (let i = 0; i < 6; i++) {
       const div = document.createElement("div");
@@ -19,7 +43,6 @@ test.beforeEach(async ({ page }) => {
 test.describe("$", () => {
   test("textContent one element", async ({ page }) => {
     const text = await page.evaluate(() => {
-      const { $ } = (window as any).carbonium;
       $("div:first-child").textContent = "hello";
       return document.getElementsByTagName("div")[0].textContent;
     });
@@ -28,7 +51,6 @@ test.describe("$", () => {
 
   test("textContent one element with type", async ({ page }) => {
     const text = await page.evaluate(() => {
-      const { $ } = (window as any).carbonium;
       const div = $("div:first-child");
       div.textContent = "hello";
       return document.getElementsByTagName("div")[0].textContent;
@@ -38,7 +60,6 @@ test.describe("$", () => {
 
   test("textContent all elements", async ({ page }) => {
     const text = await page.evaluate(() => {
-      const { $ } = (window as any).carbonium;
       $("div").textContent = "hello";
       return document.body.textContent;
     });
@@ -47,7 +68,6 @@ test.describe("$", () => {
 
   test("length", async ({ page }) => {
     const length = await page.evaluate(() => {
-      const { $ } = (window as any).carbonium;
       return $("div").length;
     });
     expect(length).toBe(6);
@@ -55,7 +75,6 @@ test.describe("$", () => {
 
   test("forEach", async ({ page }) => {
     const texts = await page.evaluate(() => {
-      const { $ } = (window as any).carbonium;
       const divs = $("div");
       divs.forEach((div: HTMLElement, i: number) => {
         div.textContent = `div ${i}`;
@@ -68,7 +87,6 @@ test.describe("$", () => {
 
   test("for of", async ({ page }) => {
     const texts = await page.evaluate(() => {
-      const { $ } = (window as any).carbonium;
       const divs = $("div");
       let i = 0;
       for (const div of divs) {
@@ -82,7 +100,6 @@ test.describe("$", () => {
 
   test("setAttribute all elements", async ({ page }) => {
     const attrs = await page.evaluate(() => {
-      const { $ } = (window as any).carbonium;
       $("div").setAttribute("aria-label", "List item");
       const divs = document.getElementsByTagName("div");
       return [
@@ -98,7 +115,6 @@ test.describe("$", () => {
 
   test("filter", async ({ page }) => {
     const text = await page.evaluate(() => {
-      const { $ } = (window as any).carbonium;
       $("div").filter(
         (el: HTMLElement) => el.textContent == "item1"
       ).textContent = "hello";
@@ -109,7 +125,6 @@ test.describe("$", () => {
 
   test("class add method", async ({ page }) => {
     const results = await page.evaluate(() => {
-      const { $ } = (window as any).carbonium;
       $("div").classList.add("some-class");
       const divs = document.getElementsByTagName("div");
       return [
@@ -132,7 +147,6 @@ test.describe("$", () => {
 
   test("class value property", async ({ page }) => {
     const value = await page.evaluate(() => {
-      const { $ } = (window as any).carbonium;
       $("div").classList.add("some-class");
       const divs = document.getElementsByTagName("div");
       return divs[0].classList.value;
@@ -141,50 +155,27 @@ test.describe("$", () => {
   });
 
   test("class add method and textContent property", async ({ page }) => {
-    const results = await page.evaluate(() => {
-      const { $ } = (window as any).carbonium;
+    await page.evaluate(() => {
       $("div:first-child").classList.add("some-class").textContent = "hello";
-      const divs = document.getElementsByTagName("div");
-      return [
-        divs[0].classList.contains("some-class"),
-        divs[5].classList.contains("some-class"),
-        divs[0].textContent,
-        divs[5].textContent,
-      ];
     });
-    expect(results[0]).toBeTruthy();
-    expect(results[1]).toBeFalsy();
-    expect(results[2]).toBe("hello");
-    expect(results[3]).toBe("item5");
+    await checkFirstClassAndText(page);
   });
 
   test("filter and class add method and textContent property", async ({
     page,
   }) => {
-    const results = await page.evaluate(() => {
-      const { $ } = (window as any).carbonium;
+    await page.evaluate(() => {
       $("div")
         .filter((el: HTMLElement) => el.textContent == "item0")
         .classList.add("some-class").textContent = "hello";
-      const divs = document.getElementsByTagName("div");
-      return [
-        divs[0].classList.contains("some-class"),
-        divs[5].classList.contains("some-class"),
-        divs[0].textContent,
-        divs[5].textContent,
-      ];
     });
-    expect(results[0]).toBeTruthy();
-    expect(results[1]).toBeFalsy();
-    expect(results[2]).toBe("hello");
-    expect(results[3]).toBe("item5");
+    await checkFirstClassAndText(page);
   });
 
   test("filter and style setProperty method and textContent property", async ({
     page,
   }) => {
     const results = await page.evaluate(() => {
-      const { $ } = (window as any).carbonium;
       $("div")
         .filter((el: HTMLElement) => el.textContent == "item0")
         .style.setProperty("--leftmargin", "10px").textContent = "hello";
@@ -204,7 +195,6 @@ test.describe("$", () => {
 
   test("combined", async ({ page }) => {
     const results = await page.evaluate(() => {
-      const { $ } = (window as any).carbonium;
       $("div")
         .forEach(
           (el: HTMLElement) =>
@@ -231,21 +221,18 @@ test.describe("$", () => {
 
   test("textContent empty list", async ({ page }) => {
     await page.evaluate(() => {
-      const { $ } = (window as any).carbonium;
       $("div.non-existent").textContent = "hello";
     });
   });
 
   test("setAttribute empty list", async ({ page }) => {
     await page.evaluate(() => {
-      const { $ } = (window as any).carbonium;
       $("div.non-existent").setAttribute("aria-label", "List item");
     });
   });
 
   test("call element specific function", async ({ page }) => {
     await page.evaluate(() => {
-      const { $ } = (window as any).carbonium;
       const input = document.createElement("input");
       document.querySelector("div:first-child")!.appendChild(input);
       $("input").select();
@@ -256,7 +243,6 @@ test.describe("$", () => {
     const fired = await page.evaluate(
       () =>
         new Promise<boolean>((resolve) => {
-          const { $ } = (window as any).carbonium;
           $("div:first-child").addEventListener("click", () => resolve(true));
           $("div:first-child").click();
         })
@@ -266,7 +252,6 @@ test.describe("$", () => {
 
   test("canvas", async ({ page }) => {
     await page.evaluate(() => {
-      const { $ } = (window as any).carbonium;
       const canvas = document.createElement("canvas");
       $("div:nth-child(1)").appendChild(canvas);
       const ctx = $("canvas").getContext("2d", { alpha: false });
@@ -276,7 +261,6 @@ test.describe("$", () => {
 
   test("style set/get", async ({ page }) => {
     const color = await page.evaluate(() => {
-      const { $ } = (window as any).carbonium;
       $("div:nth-child(1)").style.color = "red";
       return $("div:nth-child(1)").style.color;
     });
@@ -285,7 +269,6 @@ test.describe("$", () => {
 
   test("Parse HTML", async ({ page }) => {
     const results = await page.evaluate(() => {
-      const { $ } = (window as any).carbonium;
       const div$ = $("<div class='a1'>b1</div>");
       const hasClass = div$.classList.contains("a1");
       $("div:first-child").appendChild(div$[0]);
@@ -310,7 +293,6 @@ test.describe("$", () => {
 
   test("Custom Element", async ({ page }) => {
     await page.evaluate(() => {
-      const { $ } = (window as any).carbonium;
       class GolInfo extends HTMLElement {
         connectedCallback() {
           $("nnn").addEventListener("click", () => {
