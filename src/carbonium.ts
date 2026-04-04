@@ -207,8 +207,9 @@ interface CarboniumClassList<T extends HTMLElement> extends DOMTokenList {
   ): CarboniumType<T>;
 }
 
-interface CarboniumStyleList<T extends HTMLElement>
-  extends CSSStyleDeclaration {
+interface CarboniumStyleList<
+  T extends HTMLElement,
+> extends CSSStyleDeclaration {
   removeProperty(property: string): CarboniumList<T> & string;
 
   setProperty(

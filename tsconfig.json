@@ -2,7 +2,8 @@
   "compilerOptions": {
     "target": "es6",
     "sourceMap": true,
-    "declaration": true
+    "declaration": true,
+    "skipLibCheck": true
   },
   "include": ["src"]
 }

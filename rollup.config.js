@@ -1,7 +1,10 @@
+import { createRequire } from "module";
 import typescript from "@rollup/plugin-typescript";
 import terser from "@rollup/plugin-terser";
 import replace from "@rollup/plugin-replace";
-import pkg from "./package.json";
+
+const require = createRequire(import.meta.url);
+const pkg = require("./package.json");
 
 export default {
   input: "src/carbonium.ts",
