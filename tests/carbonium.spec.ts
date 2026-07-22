@@ -10,8 +10,8 @@ declare global {
 
 const bundlePath = path.resolve("./dist/bundle.iife.min.js");
 
-async function checkFirstClassAndText(page: Page) {
-  const results = await page.evaluate(() => {
+function getFirstClassAndText(page: Page) {
+  return page.evaluate(() => {
     const divs = document.getElementsByTagName("div");
     return [
       divs[0].classList.contains("some-class"),
@@ -20,10 +20,6 @@ async function checkFirstClassAndText(page: Page) {
       divs[5].textContent,
     ] as [boolean, boolean, string | null, string | null];
   });
-  expect(results[0]).toBeTruthy();
-  expect(results[1]).toBeFalsy();
-  expect(results[2]).toBe("hello");
-  expect(results[3]).toBe("item5");
 }
 
 test.beforeEach(async ({ page }) => {
@@ -158,7 +154,11 @@ test.describe("$", () => {
     await page.evaluate(() => {
       $("div:first-child").classList.add("some-class").textContent = "hello";
     });
-    await checkFirstClassAndText(page);
+    const results = await getFirstClassAndText(page);
+    expect(results[0]).toBeTruthy();
+    expect(results[1]).toBeFalsy();
+    expect(results[2]).toBe("hello");
+    expect(results[3]).toBe("item5");
   });
 
   test("filter and class add method and textContent property", async ({
@@ -169,7 +169,11 @@ test.describe("$", () => {
         .filter((el: HTMLElement) => el.textContent == "item0")
         .classList.add("some-class").textContent = "hello";
     });
-    await checkFirstClassAndText(page);
+    const results = await getFirstClassAndText(page);
+    expect(results[0]).toBeTruthy();
+    expect(results[1]).toBeFalsy();
+    expect(results[2]).toBe("hello");
+    expect(results[3]).toBe("item5");
   });
 
   test("filter and style setProperty method and textContent property", async ({
@@ -220,23 +224,37 @@ test.describe("$", () => {
   });
 
   test("textContent empty list", async ({ page }) => {
-    await page.evaluate(() => {
+    const results = await page.evaluate(() => {
       $("div.non-existent").textContent = "hello";
+      return [$("div.non-existent").length, document.body.textContent];
     });
+    expect(results[0]).toBe(0);
+    expect(results[1]).toBe("item0item1item2item3item4item5");
   });
 
   test("setAttribute empty list", async ({ page }) => {
-    await page.evaluate(() => {
+    const labelled = await page.evaluate(() => {
       $("div.non-existent").setAttribute("aria-label", "List item");
+      return document.querySelectorAll("[aria-label]").length;
     });
+    expect(labelled).toBe(0);
   });
 
   test("call element specific function", async ({ page }) => {
-    await page.evaluate(() => {
+    const results = await page.evaluate(() => {
       const input = document.createElement("input");
+      input.value = "some text";
       document.querySelector("div:first-child")!.appendChild(input);
       $("input").select();
+      return [
+        input.selectionStart,
+        input.selectionEnd,
+        document.activeElement == input,
+      ] as [number | null, number | null, boolean];
     });
+    expect(results[0]).toBe(0);
+    expect(results[1]).toBe("some text".length);
+    expect(results[2]).toBeTruthy();
   });
 
   test("addEventListener", async ({ page }) => {
@@ -251,12 +269,15 @@ test.describe("$", () => {
   });
 
   test("canvas", async ({ page }) => {
-    await page.evaluate(() => {
+    const pixel = await page.evaluate(() => {
       const canvas = document.createElement("canvas");
       $("div:nth-child(1)").appendChild(canvas);
       const ctx = $("canvas").getContext("2d", { alpha: false });
+      ctx.fillStyle = "#ff0000";
       ctx.fillRect(0, 0, 100, 100);
+      return Array.from(ctx.getImageData(50, 50, 1, 1).data) as number[];
     });
+    expect(pixel).toEqual([255, 0, 0, 255]);
   });
 
   test("style set/get", async ({ page }) => {
@@ -292,17 +313,22 @@ test.describe("$", () => {
   });
 
   test("Custom Element", async ({ page }) => {
-    await page.evaluate(() => {
+    const results = await page.evaluate(() => {
+      let connected = false;
       class GolInfo extends HTMLElement {
         connectedCallback() {
           $("nnn").addEventListener("click", () => {
             console.log("click");
           });
+          connected = true;
         }
       }
       customElements.define("gol-info", GolInfo);
       const i = document.createElement("gol-info");
       document.body.appendChild(i);
+      return [connected, i instanceof GolInfo] as [boolean, boolean];
     });
+    expect(results[0]).toBeTruthy();
+    expect(results[1]).toBeTruthy();
   });
 });
