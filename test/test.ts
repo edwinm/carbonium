@@ -1,7 +1,5 @@
-import * as assert from "assert";
+import * as assert from "node:assert";
 import { $, CarboniumType } from "../src/carbonium";
-// TODO: this should work - find out why not
-// import { $, CarboniumType } from "../";
 import "@webcomponents/webcomponentsjs/custom-elements-es5-adapter";
 
 /**
