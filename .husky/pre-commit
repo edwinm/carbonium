@@ -1,2 +1,2 @@
-npx pretty-quick --staged
+npm run prettier:staged
 npm run lint
