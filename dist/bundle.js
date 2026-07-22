@@ -73,7 +73,7 @@ const proxyHandler = {
                         // When function returns undefined (like forEach),
                         // return all matched elements, so calls can be chained
                         // For example forEach(…).setAttribute(…)
-                        const newTarget = typeof ret != "undefined" ? ret : thisArg;
+                        const newTarget = ret !== undefined ? ret : thisArg;
                         return new Proxy(newTarget, proxyHandler);
                     },
                 });
@@ -86,13 +86,11 @@ const proxyHandler = {
             if (prop in target[0]) {
                 propValue = Reflect.get(target[0], prop);
             }
-        }
-        else {
             // Empty list, targeted DOM element unknown,
             // use getter of document.body
-            if (prop in document.body) {
-                propValue = Reflect.get(document.body, prop);
-            }
+        }
+        else if (prop in document.body) {
+            propValue = Reflect.get(document.body, prop);
         }
         // Propagate DOM prop value
         if (propValue) {
