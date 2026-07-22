@@ -70,7 +70,11 @@ const proxyHandler: ProxyHandler<NodeListOf<HTMLElement>> = {
         return new Proxy<Function>(propValue, {
           apply: function (target, thisArg, argumentsList) {
             currentListNodelist.forEach((el) => {
-              Reflect.apply(target, (el as any)[propList], argumentsList);
+              Reflect.apply(
+                target,
+                (el as HTMLAnchorElement)[propList],
+                argumentsList
+              );
             });
             return new Proxy(currentListNodelist, proxyHandler);
           },
