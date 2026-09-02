@@ -18,7 +18,8 @@
     "playwright:install": "playwright install --with-deps chromium firefox",
     "lint": "eslint .",
     "prettier": "prettier --config .prettierrc.json src/**/*.ts *.json --write",
-    "prettier:staged": "pretty-quick --staged"
+    "prettier:staged": "pretty-quick --staged",
+    "prestart": "npm run build"
   },
   "repository": {
     "type": "git",

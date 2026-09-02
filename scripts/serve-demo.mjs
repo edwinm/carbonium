@@ -1,11 +1,13 @@
 // Minimal static file server for the demo, so no dependency is needed.
+// Serves demo/ and dist/, so the demo can load the locally built library.
 import { createServer } from "node:http";
 import { createReadStream } from "node:fs";
 import { stat } from "node:fs/promises";
 import { spawn } from "node:child_process";
 import { extname, join, normalize, resolve } from "node:path";
 
-const root = resolve(import.meta.dirname, "..", "demo");
+const root = resolve(import.meta.dirname, "..");
+const servedDirs = ["demo", "dist"];
 const port = Number(process.env.PORT) || 8080;
 
 const mimeTypes = {
@@ -16,21 +18,24 @@ const mimeTypes = {
   ".map": "application/json",
   ".png": "image/png",
   ".svg": "image/svg+xml",
+  ".ts": "text/plain",
 };
+
+const isServed = (file) =>
+  servedDirs.some((dir) => file.startsWith(join(root, dir) + "/"));
 
 const server = createServer(async (req, res) => {
   const pathname = new URL(req.url, "http://localhost").pathname;
   let file = join(root, normalize(decodeURIComponent(pathname)));
 
-  // Don't serve anything outside the demo directory
-  if (file !== root && !file.startsWith(root + "/")) {
-    res.writeHead(403).end("Forbidden");
-    return;
-  }
-
   try {
     if ((await stat(file)).isDirectory()) {
       file = join(file, "index.html");
+    }
+    // Only demo/ and dist/ are public, the rest of the repo is not
+    if (!isServed(file)) {
+      res.writeHead(403).end("Forbidden");
+      return;
     }
     const contentType = mimeTypes[extname(file)] ?? "application/octet-stream";
     res.writeHead(200, { "content-type": contentType });
@@ -41,7 +46,7 @@ const server = createServer(async (req, res) => {
 });
 
 server.listen(port, () => {
-  const url = `http://localhost:${port}/`;
+  const url = `http://localhost:${port}/demo/`;
   console.log(`Serving demo on ${url}`);
 
   if (process.env.NO_OPEN) {
