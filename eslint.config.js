@@ -28,5 +28,13 @@ export default tseslint.config(
       "@typescript-eslint/no-unsafe-function-type": "off",
     },
   },
+  {
+    files: ["scripts/**/*.mjs"],
+    languageOptions: {
+      globals: {
+        ...globals.node,
+      },
+    },
+  },
   prettier
 );
