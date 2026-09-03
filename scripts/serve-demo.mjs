@@ -2,9 +2,9 @@
 // Serves demo/ and dist/, so the demo can load the locally built library.
 import { createServer } from "node:http";
 import { createReadStream } from "node:fs";
-import { stat } from "node:fs/promises";
+import { realpath, stat } from "node:fs/promises";
 import { spawn } from "node:child_process";
-import { extname, join, normalize, resolve } from "node:path";
+import { extname, join, normalize, resolve, sep } from "node:path";
 
 const root = resolve(import.meta.dirname, "..");
 const servedDirs = ["demo", "dist"];
@@ -21,28 +21,57 @@ const mimeTypes = {
   ".ts": "text/plain",
 };
 
-const isServed = (file) =>
-  servedDirs.some((dir) => file.startsWith(join(root, dir) + "/"));
+// Only demo/ and dist/ are public, the rest of the repo is not
+function isServed(file) {
+  return servedDirs.some((dir) => {
+    const base = join(root, dir);
+    return file === base || file.startsWith(base + sep);
+  });
+}
+
+// Map a request path onto a file, or return null when it is out of bounds.
+// Both the requested path and the file it resolves to are checked, so
+// neither "../" nor a symlink can reach outside the served directories.
+async function resolveFile(pathname) {
+  let file;
+  try {
+    file = join(root, normalize(decodeURIComponent(pathname)));
+  } catch {
+    return null; // malformed percent-encoding
+  }
+
+  if (!isServed(file)) {
+    return null;
+  }
+
+  const stats = await stat(file);
+  const real = await realpath(
+    stats.isDirectory() ? join(file, "index.html") : file
+  );
+
+  return isServed(real) ? real : null;
+}
 
 const server = createServer(async (req, res) => {
-  const pathname = new URL(req.url, "http://localhost").pathname;
-  let file = join(root, normalize(decodeURIComponent(pathname)));
+  const { pathname } = new URL(req.url, "http://localhost");
 
+  let file;
   try {
-    if ((await stat(file)).isDirectory()) {
-      file = join(file, "index.html");
-    }
-    // Only demo/ and dist/ are public, the rest of the repo is not
-    if (!isServed(file)) {
-      res.writeHead(403).end("Forbidden");
-      return;
-    }
-    const contentType = mimeTypes[extname(file)] ?? "application/octet-stream";
-    res.writeHead(200, { "content-type": contentType });
-    createReadStream(file).pipe(res);
+    file = await resolveFile(pathname);
   } catch {
     res.writeHead(404).end("Not found");
+    return;
   }
+
+  if (!file) {
+    res.writeHead(403).end("Forbidden");
+    return;
+  }
+
+  res.writeHead(200, {
+    "content-type": mimeTypes[extname(file)] ?? "application/octet-stream",
+  });
+  createReadStream(file).pipe(res);
 });
 
 server.listen(port, () => {
