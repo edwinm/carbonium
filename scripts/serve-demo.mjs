@@ -2,9 +2,9 @@
 // Serves demo/ and dist/, so the demo can load the locally built library.
 import { createServer } from "node:http";
 import { createReadStream } from "node:fs";
-import { realpath, stat } from "node:fs/promises";
+import { readdir } from "node:fs/promises";
 import { spawn } from "node:child_process";
-import { extname, join, normalize, resolve, sep } from "node:path";
+import { extname, join, relative, resolve, sep } from "node:path";
 
 const root = resolve(import.meta.dirname, "..");
 const servedDirs = ["demo", "dist"];
@@ -21,50 +21,62 @@ const mimeTypes = {
   ".ts": "text/plain",
 };
 
-// Only demo/ and dist/ are public, the rest of the repo is not
-function isServed(file) {
-  return servedDirs.some((dir) => {
-    const base = join(root, dir);
-    return file === base || file.startsWith(base + sep);
-  });
+// The files that may be served, as url path -> file on disk. Requests are
+// answered by looking a url up in here, so a request never builds a path
+// of its own and cannot reach outside these directories. Symlinks are not
+// listed, since readdir only reports them as links, never as files.
+async function indexServedFiles() {
+  const files = new Map();
+
+  for (const dir of servedDirs) {
+    let entries;
+    try {
+      entries = await readdir(join(root, dir), {
+        withFileTypes: true,
+        recursive: true,
+      });
+    } catch {
+      continue; // dist/ does not exist before the first build
+    }
+
+    for (const entry of entries) {
+      if (entry.isFile()) {
+        const file = join(entry.parentPath, entry.name);
+        files.set("/" + relative(root, file).split(sep).join("/"), file);
+      }
+    }
+  }
+
+  return files;
 }
 
-// Map a request path onto a file, or return null when it is out of bounds.
-// Both the requested path and the file it resolves to are checked, so
-// neither "../" nor a symlink can reach outside the served directories.
-async function resolveFile(pathname) {
-  let file;
+let servedFiles = await indexServedFiles();
+
+async function lookup(pathname) {
+  let url;
   try {
-    file = join(root, normalize(decodeURIComponent(pathname)));
+    url = decodeURIComponent(pathname);
   } catch {
-    return null; // malformed percent-encoding
+    return undefined; // malformed percent-encoding
+  }
+  if (url.endsWith("/")) {
+    url += "index.html";
   }
 
-  if (!isServed(file)) {
-    return null;
+  // A miss may just mean the file appeared after the last index, as
+  // happens with a rebuild, so refresh once before giving up
+  if (!servedFiles.has(url)) {
+    servedFiles = await indexServedFiles();
   }
 
-  const stats = await stat(file);
-  const real = await realpath(
-    stats.isDirectory() ? join(file, "index.html") : file
-  );
-
-  return isServed(real) ? real : null;
+  return servedFiles.get(url);
 }
 
 const server = createServer(async (req, res) => {
-  const { pathname } = new URL(req.url, "http://localhost");
-
-  let file;
-  try {
-    file = await resolveFile(pathname);
-  } catch {
-    res.writeHead(404).end("Not found");
-    return;
-  }
+  const file = await lookup(new URL(req.url, "http://localhost").pathname);
 
   if (!file) {
-    res.writeHead(403).end("Forbidden");
+    res.writeHead(404).end("Not found");
     return;
   }
 
